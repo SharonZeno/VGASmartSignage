@@ -1,3 +1,4 @@
 - The user defines WIFI network.
 - The user can choose in which mode to work - dbmode or manual mode via http interface on the controller 
-- The user can choose between 2 different templates, the template contant and the colors (for dbmode the user choose via seprate app, for manual mode via http interface on the controller) 
+- The user can choose between 2 different templates, the template contant and the colors (for dbmode the user choose via seprate app, for manual mode via http interface on the controller)
+ 
