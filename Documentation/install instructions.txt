@@ -1,0 +1,5 @@
+1) Open the esp code using arduino app/vscode 
+2) connect usb port to the TTGO VGA32
+3) connect vga cable to the controller and vga screen
+4) press upload code (to the corret port)
+5) follow the instructions on the screen
