@@ -15,6 +15,7 @@ In this project we created a smart signage that makes it esay for clients to cre
 * Firebase Arduino Client Library for ESP8266 and ESP32 - version 4.3.10
 
 ## Project Poster:
- 
+ ![VGA SmartSignage - IOT poster](https://github.com/SharonZeno/VGASmartSignage/assets/75798310/a0d64dae-0356-4fbd-bdb9-f77de316395d)
+
 This project is part of ICST - The Interdisciplinary Center for Smart Technologies, Taub Faculty of Computer Science, Technion
 https://icst.cs.technion.ac.il/
