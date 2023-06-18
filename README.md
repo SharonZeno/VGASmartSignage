@@ -12,8 +12,7 @@ In this project we created a smart signage that makes it esay for clients to cre
 
 ## Arduino/ESP32 libraries used in this project:
 * FabGL - version 1.09
-* XXXX - version XXXXX
-* XXXX - version XXXXX
+* Firebase Arduino Client Library for ESP8266 and ESP32 - version 4.3.10
 
 ## Project Poster:
  
