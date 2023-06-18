@@ -13,6 +13,7 @@ import GlobalStyles from '@mui/material/GlobalStyles';
 import Container from '@mui/material/Container';
 import { Template1 } from './Template1';
 import { Template2 } from './Template2';
+import logo from './logo.jpg';
 
 const tiers = [
   {
@@ -52,9 +53,11 @@ export const Templates = () => {
     
     const defaultTheme = createTheme();
     return (
+        <div>
         <ThemeProvider theme={defaultTheme}>
         {(!showTemplate1 && !showTemplate2) ?
         <div>
+        <img src={logo} alt=""/>
         <GlobalStyles styles={{ ul: { margin: 0, padding: 0, listStyle: 'none' } }} />
         <CssBaseline />
         <Container disableGutters maxWidth="sm" component="main" sx={{ pt: 8, pb: 6 }}>
@@ -144,5 +147,6 @@ export const Templates = () => {
         <div></div>
         }
         </ThemeProvider>
+        </div>
     );
 }

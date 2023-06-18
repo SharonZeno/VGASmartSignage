@@ -4,6 +4,8 @@ import TextField from '@mui/material/TextField';
 import Box from '@mui/material/Box';
 import { ThemeProvider } from '@emotion/react';
 import { Container, CssBaseline, Typography, createTheme } from '@mui/material';
+import logo from './logo.jpg';
+
 
 export interface Template2Props {
     setShowTemplate2: React.Dispatch<React.SetStateAction<boolean>>;
@@ -31,6 +33,7 @@ export interface Template2Props {
                 </Button>
                 </div>    
         </Box>
+        <img src={logo} alt=""/>
         <Container component="main" maxWidth="xs">
         <CssBaseline />
         <Box
