@@ -1,6 +1,5 @@
 ## VGA Smart Signage Project by :  Asaf Ephraim, Chani David & Sharon Zeno
-  
-## Details about the project
+
 In this project we created a smart signage that makes it esay for clients to create and manage the digital signage. The digital signage is displayed on a VGA screen.
  
 ## Folder description :
