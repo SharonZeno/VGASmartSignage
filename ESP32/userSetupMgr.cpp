@@ -1,12 +1,11 @@
 #include "userSetupMgr.h"
 
-#include <WiFi.h>
-#include <WebServer.h>
+
 
 //true: creates an access point, false: connects to an existing wifi
 const bool AccessPointMode = true;
 //wifi credentials (enter yours if you arne not using the AccessPointMode)
-const char *ssid = "VGA";
+const char *ssid = "VGA Smart Signage";
 const char *password = "";
 
 const char* ntpServer = "pool.ntp.org";
@@ -58,7 +57,19 @@ void CUserSetupMgr::doSetup()
     if (AccessPointMode)
     {
         Serial.println("Creating access point...");
-        WiFi.softAP(ssid, password, 6, 0);
+
+        Serial.print("get free heap - before WiFi.softAP(ssid, password);");
+        Serial.println(ESP.getFreeHeap());
+        Serial.print("get min free heap - before WiFi.softAP(ssid, password;");
+        Serial.println(ESP.getMinFreeHeap());
+
+        // WiFi.softAP(ssid, password, 6, 0);
+        WiFi.softAP(ssid, password);
+
+        Serial.print("get free heap - after WiFi.softAP(ssid, password);");
+        Serial.println(ESP.getFreeHeap());
+        Serial.print("get min free heap - after WiFi.softAP(ssid, password);");
+        Serial.println(ESP.getMinFreeHeap());
     }
     else
     {
@@ -71,7 +82,7 @@ void CUserSetupMgr::doSetup()
         }
     }
     WiFi.disconnect(); // disconnect from any previously connected network
-    delay(1000); // wait for disconnection to complete
+    delay(1000); // wait for disconnection to complete 
     server.on("/", handleRoot); // handle root URL
     server.on("/connect", handleConnect); // handle connect URL
     server.begin(); // start web server

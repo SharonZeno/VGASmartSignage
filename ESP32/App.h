@@ -5,6 +5,7 @@
 // #include "TestTimerFrame.h"
 // #include "TestControlsFrame.h"
 
+
 class Template1 : public uiApp {
 
   uiFrame * ScheduleFrame;
@@ -25,8 +26,12 @@ class Template1 : public uiApp {
 
   uiImage * imageTest;
 
+
+
+public:
   void init() {
     // resizeWindow(rootWindow(),640,480);
+    appProps().realtimeReshaping = true;
 
     // set root window background color to dark green - https://www.w3schools.com/html/html_colors_rgb.asp
     rootWindow()->frameStyle().backgroundColor = RGB888(60, 179, 113); //previous: 123, 150, 132 now: 60, 179, 113
@@ -91,5 +96,6 @@ class Template1 : public uiApp {
   
     //setActiveWindow(ScheduleFrame);
   }
+
 };
 
