@@ -35,8 +35,9 @@ export const Template1: React.FC<Template1Props> = ({
   const handleSubmit = (e: any) => {
     setShowTemplate1(false);
     e.preventDefault();
-    set( ref(db, "template1" ) , {
+    set( ref(db, "template" ) , {
     id: uuidv4(),
+    template: 1,
     MainHeadline: mainHeadline,
     Task1: task1,
     Task2: task2,
