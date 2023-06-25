@@ -11,6 +11,7 @@ namespace NFireBaseSetup
         E_CONNECTED,
         E_ERROR_CONNECTION,
         E_ERROR_EMPTY,
+        GOOD
     };
 };
 

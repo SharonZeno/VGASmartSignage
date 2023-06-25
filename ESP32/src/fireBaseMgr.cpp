@@ -1,9 +1,15 @@
-#include "fireBaseMgr.h"
+#if defined(ESP32)
+  #include <WiFi.h>
+#elif defined(ESP8266)
+  #include <ESP8266WiFi.h>
+#endif
 #include <Firebase_ESP_Client.h>
 //Provide the token generation process info.
 #include "addons/TokenHelper.h"
 //Provide the RTDB payload printing info and other helper functions.
 #include "addons/RTDBHelper.h"
+#include "fireBaseMgr.h"
+
 // Insert Firebase project API Key
 #define API_KEY "AIzaSyB2iGCEadrDLPOb72QrvW5vC2Kynnk11uE"
 // Insert RTDB URLefine the RTDB URL */
@@ -39,37 +45,37 @@ NFireBaseSetup::EDB_STATUS CFireBaseMgr::doSetup() {
 }
 
 void CFireBaseMgr::setTemplate1Data() {
-  if (Firebase.RTDB.getString(&fbdo, "/template/background_color")) {
+  if (Firebase.RTDB.getString(&fbdo, "/template/BackgroundColor")) {
     if (fbdo.dataType() == "string") {
       m_template1.backgroundColor = fbdo.stringData();
     }
   }
-  if (Firebase.RTDB.getString(&fbdo, "/template/main_headline")) {
+  if (Firebase.RTDB.getString(&fbdo, "/template/MainHeadline")) {
     if (fbdo.dataType() == "string") {
       m_template1.mainHeadline = fbdo.stringData();
     }
   }
-  if (Firebase.RTDB.getString(&fbdo, "/template/task1")) {
+  if (Firebase.RTDB.getString(&fbdo, "/template/Task1")) {
     if (fbdo.dataType() == "string") {
       m_template1.task1 = fbdo.stringData();
     }
   }
-  if (Firebase.RTDB.getString(&fbdo, "/template/task2")) {
+  if (Firebase.RTDB.getString(&fbdo, "/template/Task2")) {
     if (fbdo.dataType() == "string") {
       m_template1.task2 = fbdo.stringData();
     }
   }
-  if (Firebase.RTDB.getString(&fbdo, "/template/task3")) {
+  if (Firebase.RTDB.getString(&fbdo, "/template/Task3")) {
     if (fbdo.dataType() == "string") {
       m_template1.task3 = fbdo.stringData();
     }
   }
-  if (Firebase.RTDB.getString(&fbdo, "/template/task4")) {
+  if (Firebase.RTDB.getString(&fbdo, "/template/Task4")) {
     if (fbdo.dataType() == "string") {
       m_template1.task4 = fbdo.stringData();
     }
   }
-  if (Firebase.RTDB.getString(&fbdo, "/template/task_background_color")) {
+  if (Firebase.RTDB.getString(&fbdo, "/template/TaskBackgroundColor")) {
     if (fbdo.dataType() == "string") {
       m_template1.taskBackgroundColor = fbdo.stringData();
     }
@@ -84,13 +90,14 @@ NFireBaseSetup::EDB_STATUS CFireBaseMgr::doLoopLogic() {
     sendDataPrevMillis = millis();
     if (Firebase.RTDB.getInt(&fbdo, "/template/template")) {
       if (fbdo.dataType() == "int") {
-        chosenTemplate = fbdo.intData();
-        if (chosenTemplate == 1) {
-          chosenTemplate = 1;
+        m_chosenTemplate = fbdo.intData();
+        Serial.print("Template: ");
+        Serial.println(m_chosenTemplate);
+        if (m_chosenTemplate == 1) {
           setTemplate1Data();
         }
         else {
-          chosenTemplate = 2;
+          m_chosenTemplate = 2;
           //setTemplate2Data();
         }
       }
@@ -104,6 +111,7 @@ NFireBaseSetup::EDB_STATUS CFireBaseMgr::doLoopLogic() {
       }
     }
   }
+  return NFireBaseSetup::EDB_STATUS::GOOD;
 }
 
 int CFireBaseMgr::getChosenTemplate() {

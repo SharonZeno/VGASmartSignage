@@ -1,6 +1,8 @@
 #ifndef _TEMPLATES
 #define _TEMPLATES
 
+#include <Arduino.h>
+
 struct template1Data {
     String backgroundColor;
     String mainHeadline;
