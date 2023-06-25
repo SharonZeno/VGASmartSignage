@@ -4,7 +4,8 @@
 #include <Arduino.h>
 #include <math.h>
 #include "stateMachineMgr.h"
-#include "userSetupMgr.h"
+// #include "userSetupMgr.h"
+#include <WiFiManager.h>
 
  
 
@@ -140,23 +141,42 @@ Bitmap bitmap2 = Bitmap(72, 72, &bitmap2_data[0], PixelFormat::RGBA2222);
 
 Sprite sprites[1];
 
+// void handleWiFi()
+// {
+//   CUserSetupMgr* p_userSetupMgr = new CUserSetupMgr();
+
+//   p_userSetupMgr->doSetup();
+
+//   stateMachineMgr.setSystemState(NStateMachine::E_WIFI_INIT);
+
+//   if(p_userSetupMgr->doLoopLogic() == NUserSetup::E_CONNECTED)
+//   {
+//     // Serial.printf("Connected to WiFi, Start Display...\n");
+//     delete p_userSetupMgr;
+//     stateMachineMgr.setSystemState(NStateMachine::E_SHOW_SIGNAGE);
+
+//   }
+//   else //E_WRONG_WIFI_DETAILS
+//   {
+//     // Serial.printf("Can't connect to WiFi, Go to error handling...\n");
+//     stateMachineMgr.setSystemState(NStateMachine::E_ERROR_WIFI);
+//   }
+// }
+
 void handleWiFi()
 {
-  CUserSetupMgr userSetupMgr;
+  WiFiManager* pWiFiManager = new WiFiManager();
+  bool res = pWiFiManager->autoConnect("VGA Smart Signage");
+  //TODO: 
+  //TODO: Here get needed data from WiFi before the deletion
 
-  userSetupMgr.doSetup();
-
-  stateMachineMgr.setSystemState(NStateMachine::E_WIFI_INIT);
-
-  if(userSetupMgr.doLoopLogic() == NUserSetup::E_CONNECTED)
+  delete pWiFiManager;
+  if(!res)
   {
-    Serial.printf("Connected to WiFi, Start Display...\n");
-    stateMachineMgr.setSystemState(NStateMachine::E_SHOW_SIGNAGE);
-  }
-  else //E_WRONG_WIFI_DETAILS
-  {
-    Serial.printf("Can't connect to WiFi, Go to error handling...\n");
     stateMachineMgr.setSystemState(NStateMachine::E_ERROR_WIFI);
+  }
+  else{
+    stateMachineMgr.setSystemState(NStateMachine::E_SHOW_SIGNAGE);
   }
 }
  
@@ -204,11 +224,12 @@ void loop()
   {
   case NStateMachine::E_BOOT:
     handleWiFi(); //do that and after it the memory will be free
-    // stateMachineMgr.setSystemState(NStateMachine::E_SHOW_SIGNAGE);
+    // stateMachineMgr.setSystemState(NStateMachine::E_SHOW_SIGNAGE); //TEST OF DISPLAY ONLY!
+
     break;
   case NStateMachine::E_ERROR_WIFI:
       //call userSetupMgr.doSetup again in order to let the user to insert different wifi details
-    Serial.printf("Pleause try to setup WiFi again...\n");
+    // Serial.printf("Pleause try to setup WiFi again...\n");
     stateMachineMgr.setSystemState(NStateMachine::E_BOOT);
     break;
   case NStateMachine::E_MODE_SELECTION:
@@ -223,22 +244,44 @@ void loop()
     break;
   case NStateMachine::E_SHOW_SIGNAGE:
     
-    // WiFi.softAPdisconnect(true);
-    // WiFi.disconnect();
-
-    //TODO: need to add logic the choose between template 1 and 2
+     //TODO: need to add logic the choose between template 1 and 2
     if(!setup_done)
     {
-      Serial.print("get free heap - before DisplayController.begin(); ");
-      Serial.println(ESP.getFreeHeap());
-      Serial.print("get min free heap - before DisplayController.begin(); ");
+      // Serial.println("get free heap - before WiFi.softAPdisconnect(true); ");
+      // Serial.println(ESP.getFreeHeap());
+      // Serial.println("get min free heap - WiFi.softAPdisconnect(true); ");
+      // Serial.println(ESP.getMinFreeHeap());
+
+      WiFi.softAPdisconnect(true);
+
+      // Serial.println("get free heap - before  WiFi.disconnect(true, true); ");
+      // Serial.println(ESP.getFreeHeap());
+      // Serial.println("get min free heap -  WiFi.disconnect(true, true); ");
+      // Serial.println(ESP.getMinFreeHeap());
+
+      WiFi.disconnect(true, true);
+
+      // Serial.println("get free heap - before  userSetupServer.close(); ");
+      // Serial.println(ESP.getFreeHeap());
+      // Serial.println("get min free heap -  userSetupServer.close(); ");
+      // Serial.println(ESP.getMinFreeHeap());
+
+      // NUserSetup::userSetupServer.close();
+      
+
+      // Serial.println("get free heap - before DisplayController.begin(); ");
+      // Serial.println(ESP.getFreeHeap());
+      // Serial.println("get min free heap - before DisplayController.begin(); ");
+      // Serial.println(ESP.getMinFreeHeap());
+
 
       DisplayController.begin();
       DisplayController.setResolution(VGA_640x350_70Hz);
 
-      Serial.print("get free heap - after DisplayController.begin(); ");
+      Serial.println("get free heap - after DisplayController.begin(); ");
       Serial.println(ESP.getFreeHeap());
-      Serial.print("get min free heap - after DisplayController.begin(); ");
+      Serial.println("get min free heap - after DisplayController.begin(); ");
+      Serial.println(ESP.getMinFreeHeap());
 
       //DisplayController.setResolution(VGA_640x480_60HzD);
     
@@ -260,19 +303,21 @@ void loop()
       // sprites[1].visible = true;
       // sprites[2].visible = true;
 
+      // add sprites to display controller
+      DisplayController.setSprites(sprites, 1);
+
       setup_done = true;
     }
     
-    // add sprites to display controller
-    DisplayController.setSprites(sprites, 1);
 
-    Serial.println("Template1 is now displyed...\n");
+
+    // Serial.println("Template1 is now displyed...\n");
     // Template1().run(&DisplayController);
     Template1().runForOneMinute(&DisplayController);
     // Template1().runAsync(&DisplayController, 4500).joinAsyncRun();  // Initializes application and executes asynchronously the main event loop.
     // Template1().init();
     // Template1().showWindow(Template1().rootWindow(), true);
-    Serial.println("Template1 is finished the run...\n");
+    // Serial.println("Template1 is finished the run...\n");
 
     break;
   default:
