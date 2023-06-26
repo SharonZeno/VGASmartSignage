@@ -1,16 +1,26 @@
 #ifndef _TEMPLATES
 #define _TEMPLATES
 
-#include <Arduino.h>
-
 struct template1Data {
-    String backgroundColor;
-    String mainHeadline;
-    String task1;
-    String task2;
-    String task3;
-    String task4;
-    String taskBackgroundColor;
+    char* backgroundColor;
+    char* mainHeadline;
+    char* task1;
+    char* task2;
+    char* task3;
+    char* task4;
+    char* taskBackgroundColor;
+
+    template1Data() {
+        backgroundColor = new char[7];
+        mainHeadline = new char[50];
+        task1 = new char[50];
+        task2 = new char[50];
+        task3 = new char[50];
+        task4 = new char[50];
+        taskBackgroundColor = new char[7];
+    }
+
+    ~template1Data() = default;
 };
 
 struct template2Data {

@@ -160,6 +160,9 @@ Sprite sprites[1];
 //   }
 // }
 
+
+char mainHeadline_MAIN[50];
+
 void handleWiFi()
 {
     // WiFi.mode(WIFI_STA); //Optional
@@ -186,7 +189,9 @@ void handleWiFi()
 
   //TODO: 
   //TODO: Here get needed data from WiFi before the deletion
-
+  CFireBaseMgr *pFireBaseMgr = new CFireBaseMgr();
+  strcpy(mainHeadline_MAIN, pFireBaseMgr->getTemplate1Data().mainHeadline);
+  delete pFireBaseMgr;
 
   ///
   pWiFiManager->disconnect();
@@ -341,7 +346,12 @@ void loop()
 
     Serial.println("Template1 is now displyed...\n");
     // Template1().run(&DisplayController);
-    Template1().runForOneMinute(&DisplayController);
+
+    // Template1(mainHeadline_MAIN).runForOneMinute(&DisplayController);
+    // Template1(mainHeadline_MAIN).runForOneMinute(&DisplayController);
+    Template1(mainHeadline_MAIN).runForOneMinute(&DisplayController);
+
+
     // Template1().runAsync(&DisplayController, 4500).joinAsyncRun();  // Initializes application and executes asynchronously the main event loop.
     // Template1().init();
     // Template1().showWindow(Template1().rootWindow(), true);

@@ -16,7 +16,15 @@ class Template1 : public uiApp {
   uiStaticLabel * thirdBulletlabel;
   uiStaticLabel * fourthBulletlabel;
 
+  char m_mainHeadlineFromDB[50] = "default headline";
+
 public:
+  Template1() = default;
+  Template1(char* mainHeadlineFromDB):Template1()
+  {
+    strcpy(m_mainHeadlineFromDB, mainHeadlineFromDB);
+  }
+
   void init() {
     // resizeWindow(rootWindow(),640,480);
     appProps().realtimeReshaping = true;
@@ -26,7 +34,7 @@ public:
 
    // Main healine
     headlineLabel = new uiStaticLabel(rootWindow(), "Welcome To Our IOT Expo! ", Point(190, 20));
-    // headlineLabel->setText("ASAF TEST");
+    headlineLabel->setText(m_mainHeadlineFromDB);
     headlineLabel->labelStyle().backgroundColor = rootWindow()->frameStyle().backgroundColor;
     headlineLabel->labelStyle().textFont = &fabgl::FONT_std_24;
     headlineLabel->labelStyle().textColor = RGB888(255, 255, 255);
