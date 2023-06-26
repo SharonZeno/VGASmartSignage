@@ -162,6 +162,7 @@ Sprite sprites[1];
 
 
 char mainHeadline_MAIN[50];
+template1Data template1;
 
 void handleWiFi()
 {
@@ -190,7 +191,11 @@ void handleWiFi()
   //TODO: 
   //TODO: Here get needed data from WiFi before the deletion
   CFireBaseMgr *pFireBaseMgr = new CFireBaseMgr();
-  strcpy(mainHeadline_MAIN, pFireBaseMgr->getTemplate1Data().mainHeadline);
+  // TODO: ADD IF
+  pFireBaseMgr->doSetup();
+  // TODO: ADD IF
+  pFireBaseMgr->doLoopLogic();
+  template1 = pFireBaseMgr->getTemplate1Data();
   delete pFireBaseMgr;
 
   ///
@@ -216,7 +221,7 @@ void handleWiFi()
  
 void setup()
 {
-  // Serial.begin(115200);
+  Serial.begin(115200);
   // delay(500);
   // Serial.write("\n\n\n"); // DEBUG ONLY
  
@@ -349,7 +354,7 @@ void loop()
 
     // Template1(mainHeadline_MAIN).runForOneMinute(&DisplayController);
     // Template1(mainHeadline_MAIN).runForOneMinute(&DisplayController);
-    Template1(mainHeadline_MAIN).runForOneMinute(&DisplayController);
+    Template1(&template1).runForOneMinute(&DisplayController);
 
 
     // Template1().runAsync(&DisplayController, 4500).joinAsyncRun();  // Initializes application and executes asynchronously the main event loop.

@@ -1,5 +1,6 @@
 #pragma once
 
+#include "templates.h"
 
 class Template1 : public uiApp {
 
@@ -18,12 +19,17 @@ class Template1 : public uiApp {
 
   char m_mainHeadlineFromDB[50] = "default headline";
 
+  template1Data* m_template1;
+
 public:
   Template1() = default;
+  
   Template1(char* mainHeadlineFromDB):Template1()
   {
-    strcpy(m_mainHeadlineFromDB, mainHeadlineFromDB);
+    //strcpy(m_mainHeadlineFromDB, mainHeadlineFromDB);
   }
+
+  Template1(template1Data* template1): m_template1(template1) {};
 
   void init() {
     // resizeWindow(rootWindow(),640,480);
@@ -34,7 +40,7 @@ public:
 
    // Main healine
     headlineLabel = new uiStaticLabel(rootWindow(), "Welcome To Our IOT Expo! ", Point(190, 20));
-    headlineLabel->setText(m_mainHeadlineFromDB);
+    headlineLabel->setText(m_template1->mainHeadline);
     headlineLabel->labelStyle().backgroundColor = rootWindow()->frameStyle().backgroundColor;
     headlineLabel->labelStyle().textFont = &fabgl::FONT_std_24;
     headlineLabel->labelStyle().textColor = RGB888(255, 255, 255);
@@ -56,6 +62,7 @@ public:
     firstBulletFrame->frameStyle().backgroundColor = RGB888(245, 163, 62); // https://www.w3schools.com/html/html_colors_rgb.asp // 144, 238, 144
     // first bullet label inside the frame
     firstBulletlabel = new uiStaticLabel(firstBulletFrame, "10:00 - Ms. Zeno's Lecture", Point(10, 20));
+    firstBulletlabel->setText(m_template1->task1);
     firstBulletlabel->labelStyle().backgroundColor =  RGB888(245, 163, 62);
     firstBulletlabel->labelStyle().textFont = &fabgl::FONT_LCD_8x14;
     firstBulletlabel->labelStyle().textColor = RGB888(0, 0, 0);
@@ -66,6 +73,7 @@ public:
     secondBulletFrame->frameStyle().backgroundColor = RGB888(245, 163, 62); // https://www.w3schools.com/html/html_colors_rgb.asp // 144, 238, 144
     // first bullet label inside the frame
     secondBulletlabel = new uiStaticLabel(secondBulletFrame, "12:00 - Lunch", Point(10, 20));
+    secondBulletlabel->setText(m_template1->task2);
     secondBulletlabel->labelStyle().backgroundColor =  RGB888(245, 163, 62);
     secondBulletlabel->labelStyle().textFont = &fabgl::FONT_LCD_8x14;
     secondBulletlabel->labelStyle().textColor = RGB888(0, 0, 0);
@@ -76,6 +84,7 @@ public:
     thirdBulletFrame->frameStyle().backgroundColor = RGB888(245, 163, 62); // https://www.w3schools.com/html/html_colors_rgb.asp // 144, 238, 144
     // first bullet label inside the frame
     thirdBulletlabel = new uiStaticLabel(thirdBulletFrame, "13:30 - Mr. Ephraim's Product Launch", Point(10, 20));
+    thirdBulletlabel->setText(m_template1->task3);
     thirdBulletlabel->labelStyle().backgroundColor =  RGB888(245, 163, 62);
     thirdBulletlabel->labelStyle().textFont = &fabgl::FONT_LCD_8x14;
     thirdBulletlabel->labelStyle().textColor = RGB888(0, 0, 0);

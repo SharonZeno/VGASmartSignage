@@ -36,7 +36,7 @@ public:
     NFireBaseSetup::EDB_STATUS doSetup();
     NFireBaseSetup::EDB_STATUS doLoopLogic();
     int getChosenTemplate(); 
-    template1Data& getTemplate1Data();
+    template1Data getTemplate1Data();
     //template2Data& getTemplate2Data();
 };
 

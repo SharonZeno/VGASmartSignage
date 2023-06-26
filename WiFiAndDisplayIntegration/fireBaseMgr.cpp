@@ -82,6 +82,8 @@ NFireBaseSetup::EDB_STATUS CFireBaseMgr::doLoopLogic() {
     if (Firebase.RTDB.getInt(&fbdo, "/template/template")) {
       if (fbdo.dataType() == "int") {
         m_chosenTemplate = fbdo.intData();
+        Serial.print("Template: ");
+        Serial.println(m_chosenTemplate);
         if (m_chosenTemplate == 1) {
           setTemplate1Data();
         }
@@ -107,7 +109,7 @@ int CFireBaseMgr::getChosenTemplate() {
   return m_chosenTemplate;
 }
 
-template1Data& CFireBaseMgr::getTemplate1Data() {
+template1Data CFireBaseMgr::getTemplate1Data() {
   return m_template1;
 }
 
