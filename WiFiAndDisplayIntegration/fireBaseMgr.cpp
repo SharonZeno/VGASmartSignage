@@ -39,6 +39,7 @@ void CFireBaseMgr::setTemplate1Data() {
   if (Firebase.RTDB.getString(&fbdo, "/template/BackgroundColor")) {
     if (fbdo.dataType() == "string") {
       memcpy(m_template1.backgroundColor, fbdo.stringData().c_str(), 7); 
+      Serial.println(m_template1.backgroundColor);
     }
   }
   if (Firebase.RTDB.getString(&fbdo, "/template/MainHeadline")) {

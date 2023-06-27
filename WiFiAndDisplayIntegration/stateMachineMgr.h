@@ -22,8 +22,6 @@ class CStateMachineMgr
 {
 public:
     CStateMachineMgr();
-    void doSetup();
-    void doLoopLogic();
     NStateMachine::ESystemState getSystemState();
     void setSystemState(NStateMachine::ESystemState new_state);
 

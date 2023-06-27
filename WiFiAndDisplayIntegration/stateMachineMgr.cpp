@@ -13,12 +13,3 @@ void CStateMachineMgr::setSystemState(NStateMachine::ESystemState new_state)
   m_systemState = new_state;
 }
 
-void CStateMachineMgr::doSetup()
-{
-
-}
-
-void CStateMachineMgr::doLoopLogic()
-{
-    
-}

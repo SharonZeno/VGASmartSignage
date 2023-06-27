@@ -164,6 +164,9 @@ Sprite sprites[1];
 char mainHeadline_MAIN[50];
 template1Data template1;
 
+char ssid_wifi[50];
+char wifi_pass[50];
+
 void handleWiFi()
 {
     // WiFi.mode(WIFI_STA); //Optional
@@ -188,6 +191,8 @@ void handleWiFi()
   WiFiManager* pWiFiManager = new WiFiManager();
   bool res = pWiFiManager->autoConnect("VGA Smart Signage");
 
+  memcpy(ssid_wifi, (pWiFiManager->getWiFiSSID()).c_str(),50);
+  memcpy(wifi_pass, (pWiFiManager->getWiFiPass()).c_str(),50);
   //TODO: 
   //TODO: Here get needed data from WiFi before the deletion
   CFireBaseMgr *pFireBaseMgr = new CFireBaseMgr();
@@ -221,7 +226,7 @@ void handleWiFi()
  
 void setup()
 {
-  Serial.begin(115200);
+  // Serial.begin(115200);
   // delay(500);
   // Serial.write("\n\n\n"); // DEBUG ONLY
  
@@ -282,6 +287,43 @@ void loop()
     break;
   case NStateMachine::E_SHOW_SIGNAGE:
     
+//after first setup
+    // if(setup_done)
+    // {
+    //   WiFi.mode(WIFI_STA); //Optional
+    //   WiFi.begin(ssid_wifi, wifi_pass);
+    //   CFireBaseMgr *pFireBaseMgr = new CFireBaseMgr();
+    //   // TODO: ADD IF
+    //   pFireBaseMgr->doSetup();
+    //   // TODO: ADD IF
+    //   pFireBaseMgr->doLoopLogic();
+    //   template1Data updatedTemplate = pFireBaseMgr->getTemplate1Data();
+    //   memcpy(template1.backgroundColor ,updatedTemplate.backgroundColor, 7);
+    //   memcpy(template1.mainHeadline ,updatedTemplate.mainHeadline, 50);
+    //   memcpy(template1.task1 ,updatedTemplate.task1, 50);
+    //   memcpy(template1.task2 ,updatedTemplate.task2, 50);
+    //   memcpy(template1.task3 ,updatedTemplate.task3, 50);
+    //   memcpy(template1.task4 ,updatedTemplate.task4, 50);
+    //   memcpy(template1.taskBackgroundColor ,updatedTemplate.taskBackgroundColor, 7);
+
+    //   delete pFireBaseMgr;
+
+    //   WiFi.softAPdisconnect(true);
+
+    //   // Serial.println("get free heap - before  WiFi.disconnect(true, true); ");
+    //   // Serial.println(ESP.getFreeHeap());
+    //   // Serial.println("get min free heap -  WiFi.disconnect(true, true); ");
+    //   // Serial.println(ESP.getMinFreeHeap());
+
+    //   WiFi.disconnect(true, true);
+
+    // }
+
+
+
+
+
+
      //TODO: need to add logic the choose between template 1 and 2
     if(!setup_done)
     {
@@ -324,7 +366,7 @@ void loop()
       //DisplayController.setResolution(VGA_640x480_60HzD);
     
       //adjust this to center screen in your monitor
-      //DisplayController.moveScreen(-6, 0);
+      DisplayController.moveScreen(0, 50);
     
       // associates bitmaps to sprites
       // sprites[0].addBitmap(&bitmap1);
@@ -347,6 +389,8 @@ void loop()
       setup_done = true;
     }
     
+    
+  
 
 
     Serial.println("Template1 is now displyed...\n");
