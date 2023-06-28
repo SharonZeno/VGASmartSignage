@@ -1,6 +1,8 @@
 #pragma once
 
 #include "templates.h"
+#include "time.h"
+#include <string>
 
 class Template1 : public uiApp {
 
@@ -12,14 +14,18 @@ class Template1 : public uiApp {
 
   uiStaticLabel * authorLabel;
   uiStaticLabel * headlineLabel;
+  uiStaticLabel * clocklabel;
   uiStaticLabel * firstBulletlabel;
   uiStaticLabel * secondBulletlabel;
   uiStaticLabel * thirdBulletlabel;
   uiStaticLabel * fourthBulletlabel;
 
   char m_mainHeadlineFromDB[50] = "default headline";
+  char* cStringClock;
 
   template1Data* m_template1;
+  int m_hour;
+  int m_minute;
 
 public:
   Template1() = default;
@@ -29,7 +35,13 @@ public:
     //strcpy(m_mainHeadlineFromDB, mainHeadlineFromDB);
   }
 
-  Template1(template1Data* template1): m_template1(template1) {};
+  Template1(template1Data* template1, tm* curr_time): m_template1(template1){
+    Serial.println("C'tor started:");
+    Serial.println(&(*curr_time), "%A, %B %d %Y %H:%M:%S");
+    m_hour = curr_time->tm_hour;
+    m_minute = curr_time->tm_min;
+    cStringClock = new char[10];
+  };
 
   void init() {
     // resizeWindow(rootWindow(),640,480);
@@ -45,6 +57,18 @@ public:
     headlineLabel->labelStyle().textFont = &fabgl::FONT_std_24;
     headlineLabel->labelStyle().textColor = RGB888(255, 255, 255);
     headlineLabel->update();
+
+    // clock label
+    clocklabel = new uiStaticLabel(rootWindow(), "Very Nice Clock", Point(20, 20));
+    std::string clock = std::to_string(m_hour) + ":" + std::to_string(m_minute);
+    strcpy(cStringClock,clock.c_str());
+    Serial.println("Clock:");
+    Serial.println(cStringClock);
+    clocklabel->setText(cStringClock);
+    clocklabel->labelStyle().backgroundColor = rootWindow()->frameStyle().backgroundColor;
+    clocklabel->labelStyle().textFont = &fabgl::FONT_10x20;
+    clocklabel->labelStyle().textColor = RGB888(255, 255, 255);
+    clocklabel->update();
 
     // author label
     authorLabel = new uiStaticLabel(rootWindow(), "Expo Entrance", Point(440, 200));

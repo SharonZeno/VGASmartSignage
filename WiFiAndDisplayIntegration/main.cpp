@@ -4,6 +4,7 @@
 #include "stateMachineMgr.h"
 #include <WiFiManager.h>
 #include "fireBaseMgr.h"
+#include "time.h"
 
  
 fabgl::VGAController DisplayController;
@@ -166,6 +167,11 @@ template1Data template1;
 
 char ssid_wifi[50];
 char wifi_pass[50];
+const char* ntpServer = "pool.ntp.org";
+const long gmtOffset_sec = 10800;
+const int daylightOffset_sec = 0;
+struct tm timeinfo;
+
 
 void handleWiFi()
 {
@@ -193,6 +199,14 @@ void handleWiFi()
 
   memcpy(ssid_wifi, (pWiFiManager->getWiFiSSID()).c_str(),50);
   memcpy(wifi_pass, (pWiFiManager->getWiFiPass()).c_str(),50);
+
+  //get current time
+  configTime(gmtOffset_sec, daylightOffset_sec, ntpServer);
+  if (!getLocalTime(&timeinfo)) {
+    Serial.println("Falid to obtain time");
+  }
+  Serial.println(&timeinfo, "%A, %B %d %Y %H:%M:%S");
+
   //TODO: 
   //TODO: Here get needed data from WiFi before the deletion
   CFireBaseMgr *pFireBaseMgr = new CFireBaseMgr();
@@ -226,7 +240,7 @@ void handleWiFi()
  
 void setup()
 {
-  // Serial.begin(115200);
+  Serial.begin(115200);
   // delay(500);
   // Serial.write("\n\n\n"); // DEBUG ONLY
  
@@ -292,20 +306,22 @@ void loop()
     // {
     //   WiFi.mode(WIFI_STA); //Optional
     //   WiFi.begin(ssid_wifi, wifi_pass);
+    //   while (WiFi.status() != WL_CONNECTED) { // if not connected to WiFi network
+    //     Serial.println("Connecting to WiFi network..."); // display connection message
+    //     delay(1000); // wait for connection
+    //   }
+    //   //get current time
+    //   configTime(gmtOffset_sec, daylightOffset_sec, ntpServer);
+    //   if (!getLocalTime(&timeinfo)) {
+    //     Serial.println("Falid to obtain time");
+    //   }
+    //   Serial.println(&timeinfo, "%A, %B %d %Y %H:%M:%S");
     //   CFireBaseMgr *pFireBaseMgr = new CFireBaseMgr();
     //   // TODO: ADD IF
     //   pFireBaseMgr->doSetup();
     //   // TODO: ADD IF
     //   pFireBaseMgr->doLoopLogic();
-    //   template1Data updatedTemplate = pFireBaseMgr->getTemplate1Data();
-    //   memcpy(template1.backgroundColor ,updatedTemplate.backgroundColor, 7);
-    //   memcpy(template1.mainHeadline ,updatedTemplate.mainHeadline, 50);
-    //   memcpy(template1.task1 ,updatedTemplate.task1, 50);
-    //   memcpy(template1.task2 ,updatedTemplate.task2, 50);
-    //   memcpy(template1.task3 ,updatedTemplate.task3, 50);
-    //   memcpy(template1.task4 ,updatedTemplate.task4, 50);
-    //   memcpy(template1.taskBackgroundColor ,updatedTemplate.taskBackgroundColor, 7);
-
+    //   template1 = pFireBaseMgr->getTemplate1Data();
     //   delete pFireBaseMgr;
 
     //   WiFi.softAPdisconnect(true);
@@ -398,7 +414,8 @@ void loop()
 
     // Template1(mainHeadline_MAIN).runForOneMinute(&DisplayController);
     // Template1(mainHeadline_MAIN).runForOneMinute(&DisplayController);
-    Template1(&template1).runForOneMinute(&DisplayController);
+    Serial.println(&timeinfo, "%A, %B %d %Y %H:%M:%S");
+    Template1(&template1, &timeinfo).runForOneMinute(&DisplayController);
 
 
     // Template1().runAsync(&DisplayController, 4500).joinAsyncRun();  // Initializes application and executes asynchronously the main event loop.
