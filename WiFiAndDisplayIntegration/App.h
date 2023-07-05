@@ -36,8 +36,8 @@ public:
   }
 
   Template1(template1Data* template1, tm* curr_time): m_template1(template1){
-    Serial.println("C'tor started:");
-    Serial.println(&(*curr_time), "%A, %B %d %Y %H:%M:%S");
+    // Serial.println("C'tor started:");
+    // Serial.println(&(*curr_time), "%A, %B %d %Y %H:%M:%S");
     m_hour = curr_time->tm_hour;
     m_minute = curr_time->tm_min;
     cStringClock = new char[10];
@@ -60,10 +60,18 @@ public:
 
     // clock label
     clocklabel = new uiStaticLabel(rootWindow(), "Very Nice Clock", Point(20, 20));
-    std::string clock = std::to_string(m_hour) + ":" + std::to_string(m_minute);
+    std::string clock;
+    if(m_minute<10)
+    {
+      clock = std::to_string(m_hour) + ":0" + std::to_string(m_minute);
+    }
+    else
+    {
+      clock = std::to_string(m_hour) + ":" + std::to_string(m_minute);
+    }
     strcpy(cStringClock,clock.c_str());
-    Serial.println("Clock:");
-    Serial.println(cStringClock);
+    // Serial.println("Clock:");
+    // Serial.println(cStringClock);
     clocklabel->setText(cStringClock);
     clocklabel->labelStyle().backgroundColor = rootWindow()->frameStyle().backgroundColor;
     clocklabel->labelStyle().textFont = &fabgl::FONT_10x20;

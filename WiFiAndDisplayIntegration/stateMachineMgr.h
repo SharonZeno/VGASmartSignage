@@ -8,7 +8,6 @@ namespace NStateMachine
         E_BOOT,
         E_WIFI_INIT,
         E_ERROR_WIFI,
-        E_MODE_SELECTION,
         E_DB_MODE,
         E_MANUAL_MODE,
         E_ERROR_EMPTY_DB,
