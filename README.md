@@ -11,6 +11,7 @@ In this project we created a smart signage that makes it esay for clients to cre
 ## Arduino/ESP32 libraries used in this project:
 * FabGL - version 1.09
 * Firebase Arduino Client Library for ESP8266 and ESP32 - version 4.3.10
+* WiFiManager - version 2.0.16 
 
 ## Project Poster:
  ![VGASmartSignage](https://github.com/SharonZeno/VGASmartSignage/assets/75798310/ad256850-085c-4c14-a653-7d5ba185dede)
