@@ -7,7 +7,6 @@ In this project we created a smart signage that makes it esay for clients to cre
 * Documentation: wiring diagram + basic operating instructions
 * Unit Tests: tests for individual hardware components (input / output devices)
 * app : react code for our app.
-* Parameters: contains description of configurable parameters 
 
 ## Arduino/ESP32 libraries used in this project:
 * FabGL - version 1.09
