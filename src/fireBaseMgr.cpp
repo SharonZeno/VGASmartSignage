@@ -62,11 +62,6 @@ void CFireBaseMgr::setTemplate1Data() {
       memcpy(m_template1.task3, fbdo.stringData().c_str(), 50);
     }
   }
-  if (Firebase.RTDB.getString(&fbdo, "/template/Task4")) {
-    if (fbdo.dataType() == "string") {
-      memcpy(m_template1.task4, fbdo.stringData().c_str(), 50);
-    }
-  }
   if (Firebase.RTDB.getString(&fbdo, "/template/TaskBackgroundColor")) {
     if (fbdo.dataType() == "string") {
       memcpy(m_template1.taskBackgroundColor, fbdo.stringData().c_str(), 7);

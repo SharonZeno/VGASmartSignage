@@ -51,7 +51,6 @@ public:
 
     // set root window background color to dark green - https://www.w3schools.com/html/html_colors_rgb.asp
     //rootWindow()->frameStyle().backgroundColor = RGB888(60, 179, 113); //previous: 123, 150, 132 now: 60, 179, 113
-
     rootWindow()->frameStyle().backgroundColor = m_colorMap[m_template1->backgroundColor];
 
    // Main healine

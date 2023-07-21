@@ -7,7 +7,6 @@
 #include "time.h"
 #include "Template2.h"
 
- 
 fabgl::VGAController DisplayController;
 CStateMachineMgr stateMachineMgr;
  
