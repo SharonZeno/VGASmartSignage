@@ -20,7 +20,7 @@ class CFireBaseMgr
 private:
     int m_chosenTemplate;
     template1Data m_template1;
-    //template2Data m_template2;
+    template2Data m_template2;
     char* m_currentTemplateId;
     void setTemplate1Data();
     //void setTemplate2Data();
@@ -37,7 +37,7 @@ public:
     NFireBaseSetup::EDB_STATUS doLoopLogic();
     int getChosenTemplate(); 
     template1Data getTemplate1Data();
-    //template2Data& getTemplate2Data();
+    template2Data getTemplate2Data();
 };
 
 #endif

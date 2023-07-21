@@ -1,10 +1,11 @@
 #include "fabgl.h"
 #include "fabui.h"
-#include "App.h"
+#include "Template1.h"
 #include "stateMachineMgr.h"
 #include <WiFiManager.h>
 #include "fireBaseMgr.h"
 #include "time.h"
+#include "Template2.h"
 
  
 fabgl::VGAController DisplayController;
@@ -87,8 +88,9 @@ const uint8_t bitmap2_data[]  = {
 
 Bitmap arrow_bitmap = Bitmap(72, 72, &bitmap2_data[0], PixelFormat::RGBA2222);
 Sprite sprites[1];
-char mainHeadline_MAIN[50];
+int chosenTemplate = 0;
 template1Data _template1;
+template2Data _template2;
 char ssid_wifi[50];
 char wifi_pass[50];
 const char* ntpServer = "pool.ntp.org";
@@ -103,7 +105,7 @@ CFireBaseMgr* pFireBaseMgr = nullptr;
 
 void setup()
 {
-  // Serial.begin(115200);
+  Serial.begin(115200);
 }
 
 void loop()
@@ -155,7 +157,13 @@ void loop()
       stateMachineMgr.setSystemState(NStateMachine::E_ERROR_EMPTY_DB);
       break;
     }
-    _template1 = pFireBaseMgr->getTemplate1Data();
+    chosenTemplate = pFireBaseMgr->getChosenTemplate();
+    if (chosenTemplate == 1) {
+      _template1 = pFireBaseMgr->getTemplate1Data();
+    }
+    else {
+      _template2 = pFireBaseMgr->getTemplate2Data();
+    }
     delete pFireBaseMgr;
     pWiFiManager->disconnect();
     pWiFiManager->erase();
@@ -184,18 +192,6 @@ void loop()
 
       //adjust this to center screen in your monitor
       DisplayController.moveScreen(0, 50);
-    
-      // associates bitmaps to sprites
-      sprites[0].addBitmap(&arrow_bitmap);
-
-      // sets initial position
-      sprites[0].moveTo(470, 120);
-    
-      // makes sprites visible
-      sprites[0].visible = true;
-
-      // add sprites to display controller
-      DisplayController.setSprites(sprites, 1);
 
       setup_done = true;
     }
@@ -215,10 +211,26 @@ void loop()
       WiFi.softAPdisconnect(true);
       WiFi.disconnect(true, true);
     }
+    if (chosenTemplate == 1) {
+      // associates bitmaps to sprites
+      sprites[0].addBitmap(&arrow_bitmap);
+
+      // sets initial position
+      sprites[0].moveTo(470, 120);
     
-    // Serial.println("Template1 is now displyed...\n");
-    Template1(&_template1, &_timeinfo).runForOneMinute(&DisplayController);
-    // Serial.println("Template1 is now refreshing...\n");
+      // makes sprites visible
+      sprites[0].visible = true;
+
+      // add sprites to display controller
+      DisplayController.setSprites(sprites, 1);
+      // Serial.println("Template1 is now displyed...\n");
+      Template1(&_template1, &_timeinfo).runForOneMinute(&DisplayController);
+      // Serial.println("Template1 is now refreshing...\n");
+    }
+    else {
+      Template2().runForOneMinute(&DisplayController);
+      //display template 2
+    }
     break;
 
   default:

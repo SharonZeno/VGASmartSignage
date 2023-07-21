@@ -114,6 +114,6 @@ template1Data CFireBaseMgr::getTemplate1Data() {
   return m_template1;
 }
 
-// template2Data& CFireBaseMgr::getTemplate2Data() {
-//   return m_template2;
-// }
+template2Data CFireBaseMgr::getTemplate2Data() {
+  return m_template2;
+}
