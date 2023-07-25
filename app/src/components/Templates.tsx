@@ -14,13 +14,15 @@ import Container from '@mui/material/Container';
 import { Template1 } from './Template1';
 import { Template2 } from './Template2';
 import logo from './logo.jpg';
+import { green } from '@mui/material/colors';
+import { Divider } from '@mui/material';
 
 const tiers = [
   {
     title: 'Template 1',
     description: [
-        'some explanation about',
-        'the template',
+        'conference schedule',
+        'template',
     ],
     buttonText: 'Choose',
     buttonVariant: 'outlined',
@@ -51,29 +53,41 @@ export const Templates = () => {
         setShowTemplate2(true);
       };
     
-    const defaultTheme = createTheme();
+     const defaultTheme = createTheme({
+        typography:{
+        fontFamily: 'Roboto Slab ,sans-serif',
+        },        
+    });
+
     return (
         <div>
-        <ThemeProvider theme={defaultTheme}>
         {(!showTemplate1 && !showTemplate2) ?
         <div>
-        <img src={logo} alt=""/>
+        <div  style={{ backgroundColor: '#60829D', paddingTop: '20px', paddingBottom: '20px'}}>
+        <Box sx={{mb: -5}}>
+        <img src={logo} alt="" width={70}/>
+        </Box>
+        <Container disableGutters maxWidth="sm" component="main" sx={{ pt: 8, pb: 6 }}>
+        <ThemeProvider theme={defaultTheme}>
+        <Typography variant="h1" style={{ fontStyle: "Roboto Slab", fontFamily: 'sans-serif', fontSize: '3.5rem', fontWeight: 700, marginBottom: '16px', color: 'white' }}>
+            VGA Smart Signage{" "}
+            </Typography>
+            {/* <Box sx={{  fontStyle: 'oblique',fontWeight: 'light', mb: 0.05, color: 'white'}}> */}
+            <Typography variant="h4" style={{ fontStyle: 'oblique', color: 'white', fontWeight: 400, marginBottom: '32px' }}>
+             Back to the Future
+            {/* </Box> */}
+            </Typography>
+            </ThemeProvider>
+        </Container>
+        </div>
+        
+        {/* <ThemeProvider theme={defaultTheme}> */}
+
+    
         <GlobalStyles styles={{ ul: { margin: 0, padding: 0, listStyle: 'none' } }} />
         <CssBaseline />
-        <Container disableGutters maxWidth="sm" component="main" sx={{ pt: 8, pb: 6 }}>
-            <Typography
-            component="h1"
-            variant="h2"
-            align="center"
-            color="text.primary"
-            gutterBottom
-            >
-            VGA Smart Signage
-            </Typography>
-            <br></br>
-            <h2> Choose Your Template</h2>
-        </Container>
-        <Container maxWidth="md" component="main">
+        <br></br>
+        <Container maxWidth="md" component="main" sx={{ mt: 0.05}}>
             <Grid container spacing={5} alignItems="center">
             {tiers.map((tier) => (
                 // Enterprise card is full width at sm breakpoint
@@ -146,7 +160,7 @@ export const Templates = () => {
         <Template2 setShowTemplate2={setShowTemplate2}></Template2> :
         <div></div>
         }
-        </ThemeProvider>
+        {/* </div></ThemeProvider> */}    
         </div>
     );
 }
