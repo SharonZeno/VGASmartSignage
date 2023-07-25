@@ -498,7 +498,6 @@ class WiFiManager
     
     std::unique_ptr<WM_WebServer> server;
 
-  private:
     // vars
     std::vector<uint8_t> _menuIds;
     std::vector<const char *> _menuIdsParams  = {"wifi","param","info","exit"};
@@ -526,6 +525,7 @@ class WiFiManager
     const byte    DNS_PORT                = 53;
     String        _apName                 = "no-net";
     String        _apPassword             = "";
+    String        _mode                   = "";
     String        _template               = "";
     String        _ssid                   = ""; // var temp ssid
     String        _pass                   = ""; // var temp psk

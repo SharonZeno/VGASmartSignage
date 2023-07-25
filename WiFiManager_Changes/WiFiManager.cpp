@@ -1364,6 +1364,7 @@ void WiFiManager::handleWifi(boolean scan) {
   DEBUG_WM(DEBUG_VERBOSE,F("<- HTTP Wifi"));
   #endif
   handleRequest();
+  _mode = "DB";
   String page = getHTTPHead(FPSTR(S_titlewifi)); // @token titlewifi
   if (scan) {
     #ifdef WM_DEBUG_LEVEL
@@ -1439,6 +1440,8 @@ void WiFiManager::handleTemplate(){
   #ifdef WM_DEBUG_LEVEL
   DEBUG_WM(DEBUG_DEV,F("Sent param page"));
   #endif
+
+  _mode = "MANUAL";
 }
 
 /**
@@ -1989,6 +1992,7 @@ void WiFiManager::handleTemplate1Save() {
   if(_showBack) page += FPSTR(HTTP_BACKBTN); 
   page += FPSTR(HTTP_END);
   HTTPSend(page);
+  abort = true;
 }
 
 void WiFiManager::handleTemplate2Save() {
@@ -2020,6 +2024,7 @@ void WiFiManager::handleTemplate2Save() {
   if(_showBack) page += FPSTR(HTTP_BACKBTN); 
   page += FPSTR(HTTP_END);
   HTTPSend(page);
+  abort = true;
 }
 
 void WiFiManager::handleParamSave() {
@@ -3292,7 +3297,7 @@ void WiFiManager::setMenu(std::vector<const char *>& menu){
       }
     }
   }
-  #ifdef WM_DEBUG_LEVELֿֿֿֿֿֿֿֿֿ
+  #ifdef WM_DEBUG_LEVEL
   // DEBUG_WM(DEBUG_DEV,getMenuOut());
   #endif
 }

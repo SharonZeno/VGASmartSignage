@@ -39,7 +39,6 @@ void CFireBaseMgr::setTemplate1Data() {
   if (Firebase.RTDB.getString(&fbdo, "/template/BackgroundColor")) {
     if (fbdo.dataType() == "string") {
       memcpy(m_template1.backgroundColor, fbdo.stringData().c_str(), 7); 
-      Serial.println(m_template1.backgroundColor);
     }
   }
   if (Firebase.RTDB.getString(&fbdo, "/template/MainHeadline")) {
@@ -69,8 +68,88 @@ void CFireBaseMgr::setTemplate1Data() {
   }
 }
 
-// void CFireBaseMgr::setTemplate2Data() {
-// }
+void CFireBaseMgr::setTemplate2Data() {
+  if (Firebase.RTDB.getString(&fbdo, "/template/MainHeadline")) {
+    if (fbdo.dataType() == "string") {
+      memcpy(m_template2.mainHeadline, fbdo.stringData().c_str(), 50);
+    }
+  }
+  if (Firebase.RTDB.getString(&fbdo, "/template/FirstFloorHeadline")) {
+    if (fbdo.dataType() == "string") {
+      memcpy(m_template2.firstFloorHeadline, fbdo.stringData().c_str(), 50);
+    }
+  }
+  if (Firebase.RTDB.getString(&fbdo, "/template/FirstFloorClassDesc1")) {
+    if (fbdo.dataType() == "string") {
+      memcpy(m_template2.firstFloorClassDesc1, fbdo.stringData().c_str(), 50);
+    }
+  }
+  if (Firebase.RTDB.getString(&fbdo, "/template/FirstFloorClassDesc2")) {
+    if (fbdo.dataType() == "string") {
+      memcpy(m_template2.firstFloorClassDesc2, fbdo.stringData().c_str(), 50);
+    }
+  }
+  if (Firebase.RTDB.getString(&fbdo, "/template/FirstFloorClassDesc3")) {
+    if (fbdo.dataType() == "string") {
+      memcpy(m_template2.firstFloorClassDesc3, fbdo.stringData().c_str(), 50);
+    }
+  }
+  if (Firebase.RTDB.getString(&fbdo, "/template/FirstFloorClassDesc4")) {
+    if (fbdo.dataType() == "string") {
+      memcpy(m_template2.firstFloorClassDesc4, fbdo.stringData().c_str(), 50);
+    }
+  }
+  if (Firebase.RTDB.getString(&fbdo, "/template/SecondFloorHeadline")) {
+    if (fbdo.dataType() == "string") {
+      memcpy(m_template2.secondFloorHeadline, fbdo.stringData().c_str(), 50);
+    }
+  }
+  if (Firebase.RTDB.getString(&fbdo, "/template/SecondFloorClassDesc1")) {
+    if (fbdo.dataType() == "string") {
+      memcpy(m_template2.secondFloorClassDesc1, fbdo.stringData().c_str(), 50);
+    }
+  }
+  if (Firebase.RTDB.getString(&fbdo, "/template/SecondFloorClassDesc2")) {
+    if (fbdo.dataType() == "string") {
+      memcpy(m_template2.secondFloorClassDesc2, fbdo.stringData().c_str(), 50);
+    }
+  }
+  if (Firebase.RTDB.getString(&fbdo, "/template/SecondFloorClassDesc3")) {
+    if (fbdo.dataType() == "string") {
+      memcpy(m_template2.secondFloorClassDesc3, fbdo.stringData().c_str(), 50);
+    }
+  }
+  if (Firebase.RTDB.getString(&fbdo, "/template/SecondFloorClassDesc4")) {
+    if (fbdo.dataType() == "string") {
+      memcpy(m_template2.secondFloorClassDesc4, fbdo.stringData().c_str(), 50);
+    }
+  }
+  if (Firebase.RTDB.getString(&fbdo, "/template/ThirdFloorHeadline")) {
+    if (fbdo.dataType() == "string") {
+      memcpy(m_template2.thirdFloorHeadline, fbdo.stringData().c_str(), 50);
+    }
+  }
+  if (Firebase.RTDB.getString(&fbdo, "/template/ThirdFloorClassDesc1")) {
+    if (fbdo.dataType() == "string") {
+      memcpy(m_template2.thirdFloorClassDesc1, fbdo.stringData().c_str(), 50);
+    }
+  }
+  if (Firebase.RTDB.getString(&fbdo, "/template/ThirdFloorClassDesc2")) {
+    if (fbdo.dataType() == "string") {
+      memcpy(m_template2.thirdFloorClassDesc2, fbdo.stringData().c_str(), 50);
+    }
+  }
+  if (Firebase.RTDB.getString(&fbdo, "/template/ThirdFloorClassDesc3")) {
+    if (fbdo.dataType() == "string") {
+      memcpy(m_template2.thirdFloorClassDesc3, fbdo.stringData().c_str(), 50);
+    }
+  }
+  if (Firebase.RTDB.getString(&fbdo, "/template/ThirdFloorClassDesc4")) {
+    if (fbdo.dataType() == "string") {
+      memcpy(m_template2.thirdFloorClassDesc4, fbdo.stringData().c_str(), 50);
+    }
+  }
+}
 
 NFireBaseSetup::EDB_STATUS CFireBaseMgr::doLoopLogic() {
   if (Firebase.ready() && signupOK && (millis() - sendDataPrevMillis > 15000 || sendDataPrevMillis == 0)) {
@@ -78,14 +157,11 @@ NFireBaseSetup::EDB_STATUS CFireBaseMgr::doLoopLogic() {
     if (Firebase.RTDB.getInt(&fbdo, "/template/template")) {
       if (fbdo.dataType() == "int") {
         m_chosenTemplate = fbdo.intData();
-        Serial.print("Template: ");
-        Serial.println(m_chosenTemplate);
         if (m_chosenTemplate == 1) {
           setTemplate1Data();
         }
         else {
-          m_chosenTemplate = 2;
-          //setTemplate2Data();
+          setTemplate2Data();
         }
       }
     }

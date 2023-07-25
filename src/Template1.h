@@ -46,12 +46,15 @@ public:
   };
 
   void init() {
-    // resizeWindow(rootWindow(),640,480);
     appProps().realtimeReshaping = true;
 
     // set root window background color to dark green - https://www.w3schools.com/html/html_colors_rgb.asp
-    //rootWindow()->frameStyle().backgroundColor = RGB888(60, 179, 113); //previous: 123, 150, 132 now: 60, 179, 113
-    rootWindow()->frameStyle().backgroundColor = m_colorMap[m_template1->backgroundColor];
+    if (strlen(m_template1->backgroundColor) == 0) {
+      rootWindow()->frameStyle().backgroundColor = RGB888(60, 179, 113);
+    }
+    else {
+      rootWindow()->frameStyle().backgroundColor = m_colorMap[m_template1->backgroundColor];
+    }
 
    // Main healine
     headlineLabel = new uiStaticLabel(rootWindow(), "Welcome To Our IOT Expo! ", Point(190, 20));
@@ -73,8 +76,6 @@ public:
       clock = std::to_string(m_hour) + ":" + std::to_string(m_minute);
     }
     strcpy(cStringClock,clock.c_str());
-    // Serial.println("Clock:");
-    // Serial.println(cStringClock);
     clocklabel->setText(cStringClock);
     clocklabel->labelStyle().backgroundColor = rootWindow()->frameStyle().backgroundColor;
     clocklabel->labelStyle().textFont = &fabgl::FONT_10x20;
@@ -90,46 +91,72 @@ public:
 
     // frame where to schdule bullets
     ScheduleFrame = new uiFrame(rootWindow(), "", Point(10, 60), Size(330, 190)); //Size(330, 245)
-    std::string backColor = m_template1->backgroundColor;
-    std::string scheduleBackColor = "BRIGHT_" + backColor;
-    ScheduleFrame->frameStyle().backgroundColor = m_colorMap[scheduleBackColor];
-    //ScheduleFrame->frameStyle().backgroundColor = RGB888(152, 251, 152); // https://www.w3schools.com/html/html_colors_rgb.asp // 144, 238, 144
+    if (strlen(m_template1->taskBackgroundColor) == 0) {
+      ScheduleFrame->frameStyle().backgroundColor = RGB888(152, 251, 152);
+    }
+    else {
+      std::string backColor = m_template1->backgroundColor;
+      std::string scheduleBackColor = "BRIGHT_" + backColor;
+      ScheduleFrame->frameStyle().backgroundColor = m_colorMap[scheduleBackColor];
+    }
 
     // first bullet frame
     firstBulletFrame = new uiFrame(ScheduleFrame, "", Point(10, 10), Size(310, 45));
-    //firstBulletFrame->frameStyle().backgroundColor = RGB888(245, 163, 62); // https://www.w3schools.com/html/html_colors_rgb.asp // 144, 238, 144
-    firstBulletFrame->frameStyle().backgroundColor = m_colorMap[m_template1->taskBackgroundColor]; 
+    if (strlen(m_template1->taskBackgroundColor) == 0) {
+      firstBulletFrame->frameStyle().backgroundColor = RGB888(245, 163, 62);
+    }
+    else {
+      firstBulletFrame->frameStyle().backgroundColor = m_colorMap[m_template1->taskBackgroundColor];
+    }
     // first bullet label inside the frame
     firstBulletlabel = new uiStaticLabel(firstBulletFrame, "10:00 - Ms. Zeno's Lecture", Point(10, 20));
     firstBulletlabel->setText(m_template1->task1);
-    //firstBulletlabel->labelStyle().backgroundColor = RGB888(245, 163, 62);
-    firstBulletlabel->labelStyle().backgroundColor = m_colorMap[m_template1->taskBackgroundColor];
+    if (strlen(m_template1->taskBackgroundColor) == 0) {
+      firstBulletlabel->labelStyle().backgroundColor = RGB888(245, 163, 62);
+    }
+    else {
+      firstBulletlabel->labelStyle().backgroundColor = m_colorMap[m_template1->taskBackgroundColor];
+    }
     firstBulletlabel->labelStyle().textFont = &fabgl::FONT_LCD_8x14;
     firstBulletlabel->labelStyle().textColor = RGB888(0, 0, 0);
     firstBulletlabel->update();  
 
     // second bullet frame
     secondBulletFrame = new uiFrame(ScheduleFrame, "", Point(10, 70), Size(310, 45));
-    //secondBulletFrame->frameStyle().backgroundColor = RGB888(245, 163, 62); // https://www.w3schools.com/html/html_colors_rgb.asp // 144, 238, 144
-    secondBulletFrame->frameStyle().backgroundColor = m_colorMap[m_template1->taskBackgroundColor];
-    // first bullet label inside the frame
+    if (strlen(m_template1->taskBackgroundColor) == 0) {
+      secondBulletFrame->frameStyle().backgroundColor = RGB888(245, 163, 62);
+    }
+    else {
+      secondBulletFrame->frameStyle().backgroundColor = m_colorMap[m_template1->taskBackgroundColor];
+    }
     secondBulletlabel = new uiStaticLabel(secondBulletFrame, "12:00 - Lunch", Point(10, 20));
     secondBulletlabel->setText(m_template1->task2);
-    //secondBulletlabel->labelStyle().backgroundColor =  RGB888(245, 163, 62);
-    secondBulletlabel->labelStyle().backgroundColor = m_colorMap[m_template1->taskBackgroundColor];
+    if (strlen(m_template1->taskBackgroundColor) == 0) {
+      secondBulletlabel->labelStyle().backgroundColor = RGB888(245, 163, 62);
+    }
+    else {
+      secondBulletlabel->labelStyle().backgroundColor = m_colorMap[m_template1->taskBackgroundColor];
+    }
     secondBulletlabel->labelStyle().textFont = &fabgl::FONT_LCD_8x14;
     secondBulletlabel->labelStyle().textColor = RGB888(0, 0, 0);
     secondBulletlabel->update();  
 
     // third bullet frame
     thirdBulletFrame = new uiFrame(ScheduleFrame, "", Point(10, 130), Size(310, 45));
-    //thirdBulletFrame->frameStyle().backgroundColor = RGB888(245, 163, 62); // https://www.w3schools.com/html/html_colors_rgb.asp // 144, 238, 144
-    thirdBulletFrame->frameStyle().backgroundColor = m_colorMap[m_template1->taskBackgroundColor];
-    // first bullet label inside the frame
+    if (strlen(m_template1->taskBackgroundColor) == 0) {
+      thirdBulletFrame->frameStyle().backgroundColor = RGB888(245, 163, 62);
+    }
+    else {
+      thirdBulletFrame->frameStyle().backgroundColor = m_colorMap[m_template1->taskBackgroundColor];
+    }
     thirdBulletlabel = new uiStaticLabel(thirdBulletFrame, "13:30 - Mr. Ephraim's Product Launch", Point(10, 20));
     thirdBulletlabel->setText(m_template1->task3);
-    //thirdBulletlabel->labelStyle().backgroundColor =  RGB888(245, 163, 62);
-    thirdBulletlabel->labelStyle().backgroundColor = m_colorMap[m_template1->taskBackgroundColor];
+    if (strlen(m_template1->taskBackgroundColor) == 0) {
+      thirdBulletlabel->labelStyle().backgroundColor = RGB888(245, 163, 62);
+    }
+    else {
+      thirdBulletlabel->labelStyle().backgroundColor = m_colorMap[m_template1->taskBackgroundColor];
+    }
     thirdBulletlabel->labelStyle().textFont = &fabgl::FONT_LCD_8x14;
     thirdBulletlabel->labelStyle().textColor = RGB888(0, 0, 0);
     thirdBulletlabel->update();  
