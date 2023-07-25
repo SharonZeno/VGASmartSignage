@@ -804,10 +804,6 @@ boolean  WiFiManager::startConfigPortal(char const *apName, char const *apPasswo
         #endif
         _configportaltimeoutcallback();  // @CALLBACK
       }
-    Serial.println("------------------------------------");
-    Serial.println(abort);
-     Serial.println("here");
-    Serial.println("------------------------------------");
       break;
     }
 
