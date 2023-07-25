@@ -679,6 +679,7 @@ class WiFiManager
     void          HTTPSend(const String &content);
     void          handleRoot();
     void          handleWifi(boolean scan);
+    void          handleWifi1(boolean scan);
     void          handleTemplate();
     void          handleTemplateSave();
     void          handleTemplate1Save();
