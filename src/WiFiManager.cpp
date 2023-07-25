@@ -646,6 +646,7 @@ void WiFiManager::setupHTTPServer(){
   // G macro workaround for Uri() bug https://github.com/esp8266/Arduino/issues/7102
   server->on(WM_G(R_root),       std::bind(&WiFiManager::handleRoot, this));
   server->on(WM_G(R_wifi),       std::bind(&WiFiManager::handleWifi, this, true));
+  server->on(WM_G(R_wifi1),       std::bind(&WiFiManager::handleWifi1, this, true));
   server->on(WM_G(R_wifinoscan), std::bind(&WiFiManager::handleWifi, this, false));
   server->on(WM_G(R_wifisave),   std::bind(&WiFiManager::handleWifiSave, this));
   server->on(WM_G(R_template),   std::bind(&WiFiManager::handleTemplate, this));
@@ -803,6 +804,10 @@ boolean  WiFiManager::startConfigPortal(char const *apName, char const *apPasswo
         #endif
         _configportaltimeoutcallback();  // @CALLBACK
       }
+    Serial.println("------------------------------------");
+    Serial.println(abort);
+     Serial.println("here");
+    Serial.println("------------------------------------");
       break;
     }
 
@@ -1412,13 +1417,100 @@ void WiFiManager::handleWifi(boolean scan) {
   #endif
 }
 
+void WiFiManager::handleWifi1(boolean scan) {
+  #ifdef WM_DEBUG_LEVEL
+  DEBUG_WM(DEBUG_VERBOSE,F("<- HTTP Wifi"));
+  #endif
+  handleRequest();
+  String page = getHTTPHead(FPSTR(S_titlewifi)); // @token titlewifi
+  if (scan) {
+    #ifdef WM_DEBUG_LEVEL
+    // DEBUG_WM(DEBUG_DEV,"refresh flag:",server->hasArg(F("refresh")));
+    #endif
+    WiFi_scanNetworks(server->hasArg(F("refresh")),false); //wifiscan, force if arg refresh
+    page += getScanItemOut();
+  }
+  String pitem = "";
+
+  pitem = FPSTR(HTTP_FORM_START);
+  pitem.replace(FPSTR(T_v), F("template")); // set form action
+  page += pitem;
+
+  pitem = FPSTR(HTTP_FORM_WIFI);
+  pitem.replace(FPSTR(T_v), WiFi_SSID());
+
+  if(_showPassword){
+    pitem.replace(FPSTR(T_p), WiFi_psk());
+  }
+  else if(WiFi_psk() != ""){
+    pitem.replace(FPSTR(T_p),FPSTR(S_passph));    
+  }
+  else {
+    pitem.replace(FPSTR(T_p),"");    
+  }
+
+  page += pitem;
+
+  page += getStaticOut();
+  page += FPSTR(HTTP_FORM_WIFI_END);
+  if(_paramsInWifi && _paramsCount>0){
+    page += FPSTR(HTTP_FORM_PARAM_HEAD);
+    page += getParamOut();
+  }
+  page += FPSTR(HTTP_FORM_END);
+  page += FPSTR(HTTP_SCAN_LINK);
+  if(_showBack) page += FPSTR(HTTP_BACKBTN);
+  reportStatus(page);
+  page += FPSTR(HTTP_END);
+
+  HTTPSend(page);
+
+  #ifdef WM_DEBUG_LEVEL
+  DEBUG_WM(DEBUG_DEV,F("Sent config page"));
+  #endif
+}
+
 
 void WiFiManager::handleTemplate(){
   #ifdef WM_DEBUG_LEVEL
   DEBUG_WM(DEBUG_VERBOSE,F("<- HTTP Template"));
   #endif
   handleRequest();
-  String page = getHTTPHead(FPSTR(S_titletemplate)); // @token titlewifi
+
+  _ssid = server->arg(F("s")).c_str();
+  _pass = server->arg(F("p")).c_str();
+
+ if (server->arg(FPSTR(S_ip)) != "") {
+    String ip = server->arg(FPSTR(S_ip));
+    optionalIPFromString(&_sta_static_ip, ip.c_str());
+  }
+  if (server->arg(FPSTR(S_gw)) != "") {
+    String gw = server->arg(FPSTR(S_gw));
+    optionalIPFromString(&_sta_static_gw, gw.c_str());
+  }
+  if (server->arg(FPSTR(S_sn)) != "") {
+    String sn = server->arg(FPSTR(S_sn));
+    optionalIPFromString(&_sta_static_sn, sn.c_str());
+  }
+  if (server->arg(FPSTR(S_dns)) != "") {
+    String dns = server->arg(FPSTR(S_dns));
+    optionalIPFromString(&_sta_static_dns, dns.c_str());
+  }
+
+  if (_presavewificallback != NULL) {
+    _presavewificallback();  // @CALLBACK 
+  }
+
+  if(_paramsInWifi) doParamSave();
+
+  String page;
+
+  if(_ssid == ""){
+    page = getHTTPHead(FPSTR(S_titlewifisettings)); // @token titleparamsaved
+    page += FPSTR(HTTP_PARAMSAVED);
+  }
+  else {
+  page = getHTTPHead(FPSTR(S_titletemplate)); // @token titlewifi
 
   String pitem = "";
   
@@ -1429,7 +1521,9 @@ void WiFiManager::handleTemplate(){
   pitem = FPSTR(HTTP_FORM_TEMPLATE);
   page += pitem;
 
-  page += FPSTR(HTTP_FORM_END);
+  page += FPSTR(HTTP_FORM_END); 
+  }
+
   if(_showBack) page += FPSTR(HTTP_BACKBTN);
   reportStatus(page);
   page += FPSTR(HTTP_END);
@@ -1927,7 +2021,6 @@ void WiFiManager::handleWifiSave() {
   connect = true; //signal ready to connect/reset process in processConfigPortal
 }
 
-
 void WiFiManager::handleTemplateSave() {
 
  #ifdef WM_DEBUG_LEVEL
@@ -1989,6 +2082,7 @@ void WiFiManager::handleTemplate1Save() {
   if(_showBack) page += FPSTR(HTTP_BACKBTN); 
   page += FPSTR(HTTP_END);
   HTTPSend(page);
+  abort = true;
 }
 
 void WiFiManager::handleTemplate2Save() {
@@ -2020,6 +2114,7 @@ void WiFiManager::handleTemplate2Save() {
   if(_showBack) page += FPSTR(HTTP_BACKBTN); 
   page += FPSTR(HTTP_END);
   HTTPSend(page);
+  abort = true;
 }
 
 void WiFiManager::handleParamSave() {

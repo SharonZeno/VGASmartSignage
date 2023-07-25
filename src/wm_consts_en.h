@@ -49,6 +49,7 @@ const uint8_t _nummenutokens = (sizeof(_menutokens) / sizeof(PGM_P));
 const char R_root[]               PROGMEM = "/";
 const char R_wifi[]               PROGMEM = "/wifi";
 const char R_template[]           PROGMEM = "/template";
+const char R_wifi1[]              PROGMEM = "/wifi1";
 const char R_templatesave[]       PROGMEM = "/templatesave";
 const char R_template1save[]      PROGMEM = "/template1save";
 const char R_template2save[]      PROGMEM = "/template2save";
