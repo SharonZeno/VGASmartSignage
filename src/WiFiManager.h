@@ -526,10 +526,40 @@ class WiFiManager
     const byte    DNS_PORT                = 53;
     String        _apName                 = "no-net";
     String        _apPassword             = "";
+    String        _template               = "";
     String        _ssid                   = ""; // var temp ssid
     String        _pass                   = ""; // var temp psk
     String        _defaultssid            = ""; // preload ssid
     String        _defaultpass            = ""; // preload pass
+
+    // template1
+    String        _t1headline             = ""; 
+    String        _task1                  = ""; 
+    String        _task2                  = ""; 
+    String        _task3                  = "";
+
+    // template2
+    String        _t2headline               = ""; 
+    
+    String        _f1headline               = ""; 
+    String        _f1desc1                  = ""; 
+    String        _f1desc2                  = ""; 
+    String        _f1desc3                  = ""; 
+    String        _f1desc4                  = ""; 
+
+    String        _f2headline               = ""; 
+    String        _f2desc1                  = ""; 
+    String        _f2desc2                  = ""; 
+    String        _f2desc3                  = ""; 
+    String        _f2desc4                  = ""; 
+
+    String        _f3headline               = ""; 
+    String        _f3desc1                  = ""; 
+    String        _f3desc2                  = ""; 
+    String        _f3desc3                  = ""; 
+    String        _f3desc4                  = ""; 
+
+
 
     // options flags
     unsigned long _configPortalTimeout    = 0; // ms close config portal loop if set (depending on  _cp/webClientCheck options)
@@ -649,6 +679,10 @@ class WiFiManager
     void          HTTPSend(const String &content);
     void          handleRoot();
     void          handleWifi(boolean scan);
+    void          handleTemplate();
+    void          handleTemplateSave();
+    void          handleTemplate1Save();
+    void          handleTemplate2Save();
     void          handleWifiSave();
     void          handleInfo();
     void          handleReset();

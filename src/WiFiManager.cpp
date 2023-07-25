@@ -648,6 +648,10 @@ void WiFiManager::setupHTTPServer(){
   server->on(WM_G(R_wifi),       std::bind(&WiFiManager::handleWifi, this, true));
   server->on(WM_G(R_wifinoscan), std::bind(&WiFiManager::handleWifi, this, false));
   server->on(WM_G(R_wifisave),   std::bind(&WiFiManager::handleWifiSave, this));
+  server->on(WM_G(R_template),   std::bind(&WiFiManager::handleTemplate, this));
+  server->on(WM_G(R_templatesave),   std::bind(&WiFiManager::handleTemplateSave, this));
+  server->on(WM_G(R_template1save),   std::bind(&WiFiManager::handleTemplate1Save, this));
+  server->on(WM_G(R_template2save),   std::bind(&WiFiManager::handleTemplate2Save, this));
   server->on(WM_G(R_info),       std::bind(&WiFiManager::handleInfo, this));
   server->on(WM_G(R_param),      std::bind(&WiFiManager::handleParam, this));
   server->on(WM_G(R_paramsave),  std::bind(&WiFiManager::handleParamSave, this));
@@ -1408,6 +1412,35 @@ void WiFiManager::handleWifi(boolean scan) {
   #endif
 }
 
+
+void WiFiManager::handleTemplate(){
+  #ifdef WM_DEBUG_LEVEL
+  DEBUG_WM(DEBUG_VERBOSE,F("<- HTTP Template"));
+  #endif
+  handleRequest();
+  String page = getHTTPHead(FPSTR(S_titletemplate)); // @token titlewifi
+
+  String pitem = "";
+  
+  pitem = FPSTR(HTTP_FORM_START);
+  pitem.replace(FPSTR(T_v), F("templatesave")); // set form action
+  page += pitem;
+  
+  pitem = FPSTR(HTTP_FORM_TEMPLATE);
+  page += pitem;
+
+  page += FPSTR(HTTP_FORM_END);
+  if(_showBack) page += FPSTR(HTTP_BACKBTN);
+  reportStatus(page);
+  page += FPSTR(HTTP_END);
+  HTTPSend(page);
+
+
+  #ifdef WM_DEBUG_LEVEL
+  DEBUG_WM(DEBUG_DEV,F("Sent param page"));
+  #endif
+}
+
 /**
  * HTTPD CALLBACK Wifi param page handler
  */
@@ -1892,6 +1925,101 @@ void WiFiManager::handleWifiSave() {
   #endif
 
   connect = true; //signal ready to connect/reset process in processConfigPortal
+}
+
+
+void WiFiManager::handleTemplateSave() {
+
+ #ifdef WM_DEBUG_LEVEL
+  DEBUG_WM(DEBUG_VERBOSE,F("<- HTTP Template save "));
+  DEBUG_WM(DEBUG_DEV,F("Method:"),server->method() == HTTP_GET  ? (String)FPSTR(S_GET) : (String)FPSTR(S_POST));
+  #endif
+  handleRequest();
+
+  _template = server->arg(F("t")).c_str();
+  
+  String page = getHTTPHead(FPSTR(S_titleparam));
+  String pitem = "";
+
+  if(_template == "1"){
+    pitem = FPSTR(HTTP_FORM_START);
+    pitem.replace(FPSTR(T_v), F("template1save")); // set form action
+    page += pitem;
+
+    pitem = FPSTR(HTTP_FORM_TEMPLATE1);
+    page += pitem;
+  }
+  else {
+    pitem = FPSTR(HTTP_FORM_START);
+    pitem.replace(FPSTR(T_v), F("template2save")); // set form action
+    page += pitem;
+
+    pitem = FPSTR(HTTP_FORM_TEMPLATE2);
+    page += pitem;
+  }
+  page += FPSTR(HTTP_FORM_END);
+  if(_showBack) page += FPSTR(HTTP_BACKBTN);
+  reportStatus(page); 
+  page += FPSTR(HTTP_END);
+  HTTPSend(page);
+
+  // if(_showBack) page += FPSTR(HTTP_BACKBTN);
+  // page += FPSTR(HTTP_END);
+
+  // server->sendHeader(FPSTR(HTTP_HEAD_CORS), FPSTR(HTTP_HEAD_CORS_ALLOW_ALL)); // @HTTPHEAD send cors
+  // HTTPSend(page);
+
+
+  #ifdef WM_DEBUG_LEVEL
+  DEBUG_WM(DEBUG_DEV,F("Sent param save page"));
+  #endif
+}
+
+void WiFiManager::handleTemplate1Save() {
+  handleRequest();
+
+  _t1headline = server->arg(F("headline")).c_str();
+  _task1 = server->arg(F("t1")).c_str();
+  _task2 = server->arg(F("t2")).c_str();
+  _task3 = server->arg(F("t3")).c_str();
+
+
+  String page = getHTTPHead(FPSTR(S_titleparamsaved)); // @token titleparamsaved
+  page += FPSTR(HTTP_PARAMSAVED);
+  if(_showBack) page += FPSTR(HTTP_BACKBTN); 
+  page += FPSTR(HTTP_END);
+  HTTPSend(page);
+}
+
+void WiFiManager::handleTemplate2Save() {
+  handleRequest();
+
+  _t2headline = server->arg(F("headline")).c_str();
+  
+  _f1headline = server->arg(F("f1h")).c_str();
+  _f1desc1 = server->arg(F("f1d1")).c_str();
+  _f1desc2 = server->arg(F("f1d2")).c_str();
+  _f1desc3 = server->arg(F("f1d3")).c_str();
+  _f1desc4 = server->arg(F("f1d4")).c_str();
+
+  _f2headline = server->arg(F("f2h")).c_str();
+  _f2desc1 = server->arg(F("f2d1")).c_str();
+  _f2desc2 = server->arg(F("f2d2")).c_str();
+  _f2desc3 = server->arg(F("f2d3")).c_str();
+  _f2desc4 = server->arg(F("f2d4")).c_str();
+
+  _f3headline = server->arg(F("f3h")).c_str();
+  _f3desc1 = server->arg(F("f3d1")).c_str();
+  _f3desc2 = server->arg(F("f3d2")).c_str();
+  _f3desc3 = server->arg(F("f3d3")).c_str();
+  _f3desc4 = server->arg(F("f3d4")).c_str();
+
+
+  String page = getHTTPHead(FPSTR(S_titleparamsaved)); // @token titleparamsaved
+  page += FPSTR(HTTP_PARAMSAVED);
+  if(_showBack) page += FPSTR(HTTP_BACKBTN); 
+  page += FPSTR(HTTP_END);
+  HTTPSend(page);
 }
 
 void WiFiManager::handleParamSave() {

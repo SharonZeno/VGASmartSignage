@@ -3,7 +3,7 @@ import Button from '@mui/material/Button';
 import TextField from '@mui/material/TextField';
 import Box from '@mui/material/Box';
 import { ThemeProvider } from '@emotion/react';
-import { Container, CssBaseline, MenuItem, Typography, createTheme } from '@mui/material';
+import { AppBar, Container, CssBaseline, IconButton, MenuItem, Toolbar, Typography, createTheme } from '@mui/material';
 import { ref, set } from "@firebase/database";
 import { db } from "../firebase";
 import { v4 as uuidv4 } from "uuid";
@@ -20,7 +20,7 @@ const colors = [
     value: 'BLUE',
   },
   {
-    value: 'YELLOW',
+    value: 'ORANGE',
   },
 ];
 
@@ -42,7 +42,7 @@ export const Template1: React.FC<Template1Props> = ({
     Task1: task1,
     Task2: task2,
     Task3: task3,
-    Task4: task4,
+    Task4: "test",
     BackgroundColor: backgroundColor,
     TaskBackgroundColor: taskBackgroundColor
   });  
@@ -82,10 +82,10 @@ const handleTask3Change = (e: React.ChangeEvent<HTMLInputElement>) => {
   setTask3(e.target.value); 
 }
 
-const handleTask4Change = (e: React.ChangeEvent<HTMLInputElement>) => {
-  e.preventDefault();
-  setTask4(e.target.value); 
-}
+// const handleTask4Change = (e: React.ChangeEvent<HTMLInputElement>) => {
+//   e.preventDefault();
+//   setTask4(e.target.value); 
+// }
 
 const handleBackgroundColorChange = (e: React.ChangeEvent<HTMLInputElement>) => {
   e.preventDefault();
@@ -99,18 +99,23 @@ const handleTaskBackgroundColorChange = (e: React.ChangeEvent<HTMLInputElement>)
     const theme = createTheme();
     return (
     <ThemeProvider theme={theme}>
-       <Box 
-                m={1} //margin
-                display="flex"
-                justifyContent="flex-start"
-                alignItems="flex-start">
-                <div>
-                <Button variant="outlined" size="small" onClick={handleOnGoBackClick} sx={{borderColor: "#92ACAD", color: "#92ACAD"}}>
-                go back
-                </Button>
-                </div>    
-        </Box>
-        <img src={logo} alt=""/>
+                  <Box sx={{ flexGrow: 1 } }>
+              <AppBar position="static" sx={{background: "#60829D"}}>
+                <Toolbar>
+                  <img src={logo} alt="" width={50}/>
+                  <Box sx={{ flexGrow: 1 }} />
+                  <Box sx={{ display: { xs: 'none', md: 'flex' }, gap: 1}}>
+                  <Button 
+                    variant="outlined" 
+                    size="medium" 
+                    onClick={handleOnGoBackClick} 
+                    sx={{borderColor: "white", color: "white"}}>
+                        Go Back
+                    </Button>
+                  </Box>
+                </Toolbar>
+              </AppBar>
+            </Box>
         <Container component="main" maxWidth="xs">
         <CssBaseline />
         <Box
@@ -127,9 +132,9 @@ const handleTaskBackgroundColorChange = (e: React.ChangeEvent<HTMLInputElement>)
           <div>
             <br></br>
           <Box component="form" noValidate sx={{ mt: 1 }}>
-          <Typography variant="subtitle1" gutterBottom>
+          {/* <Typography variant="subtitle1" gutterBottom >
             add text
-          </Typography>
+          </Typography> */}
           <TextField
               margin="normal"
               fullWidth
@@ -167,7 +172,7 @@ const handleTaskBackgroundColorChange = (e: React.ChangeEvent<HTMLInputElement>)
               id="Task3"
               onChange={handleTask3Change}
             />
-            <TextField
+            {/* <TextField
               margin="normal"
               fullWidth
               name="Task4"
@@ -175,14 +180,11 @@ const handleTaskBackgroundColorChange = (e: React.ChangeEvent<HTMLInputElement>)
               type="Task4"
               id="Task4"
               onChange={handleTask4Change}
-            />
+            /> */}
         </Box>
         </div>
         <br></br>
         <Box component="form" noValidate sx={{ mt: 1 }}>
-        <Typography variant="subtitle1" gutterBottom>
-            choose color
-          </Typography>
           <TextField
                      margin="normal"
                      fullWidth

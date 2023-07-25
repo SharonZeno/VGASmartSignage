@@ -45,7 +45,7 @@ const char HTTP_ROOT_MAIN[]        PROGMEM = "<h1>{t}</h1><h3>{v}</h3>";
 const char * const HTTP_PORTAL_MENU[] PROGMEM = {
 "<form action='/wifi'    method='get'><button>Get Input From DB</button></form><br/>\n", // MENU_WIFI
 "<form action='/0wifi'   method='get'><button>Configure WiFi (No scan)</button></form><br/>\n", // MENU_WIFINOSCAN
-"<form action='/wifi'    method='get'><button>Real-Time Input</button></form><br/>\n", // MENU_INFO
+"<form action='/template'    method='get'><button>Real-Time Input</button></form><br/>\n", // MENU_INFO
 "<form action='/param'   method='get'><button>Setup</button></form><br/>\n",//MENU_PARAM
 "<form action='/close'   method='get'><button>Close</button></form><br/>\n", // MENU_CLOSE
 "<form action='/restart' method='get'><button>Restart</button></form><br/>\n",// MENU_RESTART
@@ -70,6 +70,10 @@ const char HTTP_FORM_END[]         PROGMEM = "<br/><br/><button type='submit'>Sa
 const char HTTP_FORM_LABEL[]       PROGMEM = "<label for='{i}'>{t}</label>";
 const char HTTP_FORM_PARAM_HEAD[]  PROGMEM = "<hr><br/>";
 const char HTTP_FORM_PARAM[]       PROGMEM = "<br/><input id='{i}' name='{n}' maxlength='{l}' value='{v}' {c}>\n"; // do not remove newline!
+const char HTTP_FORM_TEMPLATE[]	   PROGMEM = "<label for='t'>Choose Template</label><select id='t' name='t'><option value='1'>Template 1</option><option value='2'>Template 2</option></select>";
+const char HTTP_FORM_TEMPLATE1[]	   PROGMEM = "<label for='headline'>Main Headline</label><input id='headline' name='headline' ><br/><label for='t1'>Task 1</label><input id='t1' name='t1' ><br/><label for='t2'>Task 2</label><input id='t2' name='t2' ><br/><label for='t3'>Task 3</label><input id='t3' name='t3'>";
+const char HTTP_FORM_TEMPLATE2[]	   PROGMEM = "<label for='headline'>Main Headline</label><input id='headline' name='headline' ><br/><div>First Floor Details</div><label for='f1h'>Floor Headline</label><input id='f1h' name='f1h' ><br/><label for='f1d1'>Class Description</label><input id='f1d1' name='f1d1' ><br/><label for='f1d2'>Class Description</label><input id='f1d2' name='f1d2'><br/><label for='f1d3'>Class Description</label><input id='f1d3' name='f1d3'><br/><label for='f1d4'>Class Description</label><input id='f1d4' name='f1d4'><br/><div>Second Floor Details</div><label for='f2h'>Floor Headline</label><input id='f2h' name='f2h' ><br/><label for='f2d1'>Class Description</label><input id='f2d1' name='f2d1' ><br/><label for='f2d2'>Class Description</label><input id='f2d2' name='f2d2'><br/><label for='f2d3'>Class Description</label><input id='f2d3' name='f2d3'><br/><label for='f2d4'>Class Description</label><input id='f2d4' name='f2d4'><br/><div>Third Floor Details</div><label for='f3h'>Floor Headline</label><input id='f3h' name='f3h' ><br/><label for='f3d1'>Class Description</label><input id='f3d1' name='f3d1' ><br/><label for='f3d2'>Class Description</label><input id='f3d2' name='f3d2'><br/><label for='f3d3'>Class Description</label><input id='f3d3' name='f3d3'><br/><label for='f3d4'>Class Description</label><input id='f3d4' name='f3d4'>";
+ 
 
 const char HTTP_SCAN_LINK[]        PROGMEM = "<br/><form action='/wifi?refresh=1' method='POST'><button name='refresh' value='1'>Refresh</button></form>";
 const char HTTP_SAVED[]            PROGMEM = "<div class='msg'>Saving Credentials<br/>Trying to connect ESP to network.<br />If it fails reconnect to AP to try again</div>";
@@ -230,6 +234,10 @@ const char S_GET[]                PROGMEM = "GET";
 const char S_POST[]               PROGMEM = "POST";
 const char S_NA[]                 PROGMEM = "Unknown";
 const char S_passph[]             PROGMEM = "********";
+const char S_titletemplate1[]  	  PROGMEM = "Template 1";
+const char S_titletemplate2[]     PROGMEM = "Template 2";
+const char S_titletemplatesaved[] PROGMEM = "Template saved";
+const char S_titletemplate[]      PROGMEM = "Choose template";
 const char S_titlewifisaved[]     PROGMEM = "Credentials saved";
 const char S_titlewifisettings[]  PROGMEM = "Settings saved";
 const char S_titlewifi[]          PROGMEM = "Config ESP";
