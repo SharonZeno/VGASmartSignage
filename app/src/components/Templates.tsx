@@ -63,6 +63,7 @@ export const Templates = () => {
       }
     
       const handleOnGoBackClick = () => {
+        setController("");
         setShowChooseTemplate(false);
     }
 
@@ -96,17 +97,13 @@ export const Templates = () => {
         <Typography variant="h1" style={{ fontStyle: "Roboto Slab", fontFamily: 'sans-serif', fontSize: '3.5rem', fontWeight: 700, marginBottom: '16px', color: 'white' }}>
             VGA Smart Signage{" "}
             </Typography>
-            {/* <Box sx={{  fontStyle: 'oblique',fontWeight: 'light', mb: 0.05, color: 'white'}}> */}
             <Typography variant="h4" style={{ fontStyle: 'oblique', color: 'white', fontWeight: 400, marginBottom: '32px' }}>
              Back to the Future
-            {/* </Box> */}
             </Typography>
             </ThemeProvider>
         </Container>
         </div>
         
-        {/* <ThemeProvider theme={defaultTheme}> */}
-
     
         <GlobalStyles styles={{ ul: { margin: 0, padding: 0, listStyle: 'none' } }} />
         <CssBaseline />
@@ -132,6 +129,7 @@ export const Templates = () => {
               variant="outlined"
               sx={{ mt: 3, mb: 2 }}
               onClick={handleOnClickEnter}
+              disabled = {controller == "" ? true : false}
             >
               Enter
             </Button>
@@ -203,12 +201,12 @@ export const Templates = () => {
         <div></div> }
 
         {showTemplate1 ?
-        <Template1 setShowTemplate1={setShowTemplate1} controller={controller}></Template1> :
+        <Template1 setShowTemplate1={setShowTemplate1} setShowChooseTemplate={setShowChooseTemplate} setController={setController} controller={controller}></Template1> :
         <div></div>
         }
 
         {showTemplate2 ?
-        <Template2 setShowTemplate2={setShowTemplate2} controller={controller}></Template2> :
+        <Template2 setShowTemplate2={setShowTemplate2} setShowChooseTemplate={setShowChooseTemplate} setController={setController} controller={controller}></Template2> :
         <div></div>
         }
         {/* </div></ThemeProvider> */}    
