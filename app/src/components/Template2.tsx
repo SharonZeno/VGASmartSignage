@@ -6,7 +6,6 @@ import { ThemeProvider } from '@emotion/react';
 import { AppBar, Card, CardActions, CardContent, CardHeader, Collapse, Container, CssBaseline, Grid, IconButton, MenuItem, Toolbar, Typography, createTheme } from '@mui/material';
 import { ref, set } from "@firebase/database";
 import { db } from "../firebase";
-import { v4 as uuidv4 } from "uuid";
 import logo from './logo.jpg';
 import { ArrowDropDown } from '@mui/icons-material';
 
@@ -27,17 +26,17 @@ const colors = [
 
 export interface Template2Props {
   setShowTemplate2: React.Dispatch<React.SetStateAction<boolean>>;
+  controller: string;
 }
 
 export const Template2: React.FC<Template2Props> = ({
-  setShowTemplate2
+  setShowTemplate2,controller
 }) => {
    
   const handleSubmit = (e: any) => {
     setShowTemplate2(false);
     e.preventDefault();
-    set( ref(db, "template" ) , {
-        id: uuidv4(),
+    set( ref(db, controller ) , {
         template: 2,
         MainHeadline: mainHeadline,
         FirstFloorHeadline: firstFloorHeadline,

@@ -6,7 +6,6 @@ import { ThemeProvider } from '@emotion/react';
 import { AppBar, Container, CssBaseline, IconButton, MenuItem, Toolbar, Typography, createTheme } from '@mui/material';
 import { ref, set } from "@firebase/database";
 import { db } from "../firebase";
-import { v4 as uuidv4 } from "uuid";
 import logo from './logo.jpg';
 
 const colors = [
@@ -26,23 +25,22 @@ const colors = [
 
 export interface Template1Props {
   setShowTemplate1: React.Dispatch<React.SetStateAction<boolean>>;
+  controller: string;
 }
 
 export const Template1: React.FC<Template1Props> = ({
-  setShowTemplate1
+  setShowTemplate1, controller
 }) => {
    
   const handleSubmit = (e: any) => {
     setShowTemplate1(false);
     e.preventDefault();
-    set( ref(db, "template" ) , {
-    id: uuidv4(),
+    set( ref(db, controller ) , {
     template: 1,
     MainHeadline: mainHeadline,
     Task1: task1,
     Task2: task2,
     Task3: task3,
-    Task4: "test",
     BackgroundColor: backgroundColor,
     TaskBackgroundColor: taskBackgroundColor
   });  
@@ -58,7 +56,6 @@ export const Template1: React.FC<Template1Props> = ({
     const [task1, setTask1] = React.useState<string>('');
     const [task2, setTask2] = React.useState<string>('');
     const [task3, setTask3] = React.useState<string>('');
-    const [task4, setTask4] = React.useState<string>('');
     const [backgroundColor, setBackgroundColor] = React.useState<string>('');
     const [taskBackgroundColor, setTaskBackgroundColor] = React.useState<string>('');
 
@@ -82,10 +79,6 @@ const handleTask3Change = (e: React.ChangeEvent<HTMLInputElement>) => {
   setTask3(e.target.value); 
 }
 
-// const handleTask4Change = (e: React.ChangeEvent<HTMLInputElement>) => {
-//   e.preventDefault();
-//   setTask4(e.target.value); 
-// }
 
 const handleBackgroundColorChange = (e: React.ChangeEvent<HTMLInputElement>) => {
   e.preventDefault();
@@ -172,15 +165,7 @@ const handleTaskBackgroundColorChange = (e: React.ChangeEvent<HTMLInputElement>)
               id="Task3"
               onChange={handleTask3Change}
             />
-            {/* <TextField
-              margin="normal"
-              fullWidth
-              name="Task4"
-              label="Task 4"
-              type="Task4"
-              id="Task4"
-              onChange={handleTask4Change}
-            /> */}
+
         </Box>
         </div>
         <br></br>
