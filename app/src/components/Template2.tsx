@@ -26,15 +26,19 @@ const colors = [
 
 export interface Template2Props {
   setShowTemplate2: React.Dispatch<React.SetStateAction<boolean>>;
+  setShowChooseTemplate: React.Dispatch<React.SetStateAction<boolean>>;
+  setController: React.Dispatch<React.SetStateAction<string>>;
   controller: string;
 }
 
 export const Template2: React.FC<Template2Props> = ({
-  setShowTemplate2,controller
+  setShowTemplate2,setShowChooseTemplate,setController,controller
 }) => {
    
   const handleSubmit = (e: any) => {
+    setController("");
     setShowTemplate2(false);
+    setShowChooseTemplate(false);
     e.preventDefault();
     set( ref(db, controller ) , {
         template: 2,
