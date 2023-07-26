@@ -14,8 +14,7 @@ import Container from '@mui/material/Container';
 import { Template1 } from './Template1';
 import { Template2 } from './Template2';
 import logo from './logo.jpg';
-import { green } from '@mui/material/colors';
-import { Divider } from '@mui/material';
+import { TextField } from '@mui/material';
 
 const tiers = [
   {
@@ -43,7 +42,12 @@ export const Templates = () => {
 
     const [showTemplate1, setShowTemplate1] = React.useState<boolean>(false);
     const [showTemplate2, setShowTemplate2] = React.useState<boolean>(false);
+    const [showChooseTemplate, setShowChooseTemplate] = React.useState<boolean>(false);
+    const [controller, setController] = React.useState<string>('');
 
+    const handleOnClickEnter = () => {
+        setShowChooseTemplate(true);
+      };
 
     const handleOnClickTemplate1 = () => {
         setShowTemplate1(true);
@@ -52,7 +56,16 @@ export const Templates = () => {
       const handleOnClickTemplate2 = () => {
         setShowTemplate2(true);
       };
+
+      const handleControllerIDChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        e.preventDefault();
+        setController(e.target.value); 
+      }
     
+      const handleOnGoBackClick = () => {
+        setShowChooseTemplate(false);
+    }
+
      const defaultTheme = createTheme({
         typography:{
         fontFamily: 'Roboto Slab ,sans-serif',
@@ -64,6 +77,17 @@ export const Templates = () => {
         {(!showTemplate1 && !showTemplate2) ?
         <div>
         <div  style={{ backgroundColor: '#60829D', paddingTop: '20px', paddingBottom: '20px'}}>
+        {showChooseTemplate ? <div>
+        <Box sx={{ flexGrow: 1 }} />
+                  <Box sx={{ display: { xs: 'none', md: 'flex' }, gap: 1}}>
+                  <Button 
+                    variant="outlined" 
+                    size="medium" 
+                    onClick={handleOnGoBackClick} 
+                    sx={{borderColor: "white", color: "white"}}>
+                        Go Back
+                    </Button>
+                  </Box> </div>: <div></div>}
         <Box sx={{mb: -5}}>
         <img src={logo} alt="" width={70}/>
         </Box>
@@ -87,6 +111,33 @@ export const Templates = () => {
         <GlobalStyles styles={{ ul: { margin: 0, padding: 0, listStyle: 'none' } }} />
         <CssBaseline />
         <br></br>
+
+        {!showChooseTemplate ? 
+        <Container component="main" maxWidth="xs">
+        <Box component="form" noValidate sx={{ mt: 1 }}>
+          <Typography variant="subtitle1" gutterBottom >
+            Enter Controller ID
+          </Typography>
+          <TextField
+              margin="normal"
+              fullWidth
+              name="controllerID"
+              type="controllerID"
+              id="controllerID"
+              onChange={handleControllerIDChange}
+            />
+             <Button
+              type="submit"
+              fullWidth
+              variant="outlined"
+              sx={{ mt: 3, mb: 2 }}
+              onClick={handleOnClickEnter}
+            >
+              Enter
+            </Button>
+            </Box>
+            </Container> :
+                <div>
         <Container maxWidth="md" component="main" sx={{ mt: 0.05}}>
             <Grid container spacing={5} alignItems="center">
             {tiers.map((tier) => (
@@ -148,16 +199,16 @@ export const Templates = () => {
                 </Grid>
             ))}
             </Grid> 
-        </Container> </div> : 
+        </Container> </div>}</div> : 
         <div></div> }
 
         {showTemplate1 ?
-        <Template1 setShowTemplate1={setShowTemplate1}></Template1> :
+        <Template1 setShowTemplate1={setShowTemplate1} controller={controller}></Template1> :
         <div></div>
         }
 
         {showTemplate2 ?
-        <Template2 setShowTemplate2={setShowTemplate2}></Template2> :
+        <Template2 setShowTemplate2={setShowTemplate2} controller={controller}></Template2> :
         <div></div>
         }
         {/* </div></ThemeProvider> */}    
