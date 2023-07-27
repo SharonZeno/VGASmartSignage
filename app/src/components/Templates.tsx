@@ -29,8 +29,8 @@ const tiers = [
   {
     title: 'Template 2',
     description: [
-        'some explanation about',
-        'the template',
+        'rooms assignment',
+        'template',
     ],
     buttonText: 'Choose',
     buttonVariant: 'outlined',
