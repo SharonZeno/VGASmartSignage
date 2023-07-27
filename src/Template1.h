@@ -30,6 +30,8 @@ class Template1 : public uiApp {
 public:
   Template1() = default;
 
+  Template1(template1Data* template1): m_template1(template1) {};
+  
   Template1(template1Data* template1, tm* curr_time): m_template1(template1) {
     m_colorMap["GREEN"] = RGB888(60, 179, 113);
     m_colorMap["BRIGHT_GREEN"] = RGB888(152, 251, 152);
@@ -47,9 +49,9 @@ public:
 
   void init() {
     appProps().realtimeReshaping = true;
-
+    bool backgroundColorEmpty = strlen(m_template1->backgroundColor) == 0;
     // set root window background color to dark green - https://www.w3schools.com/html/html_colors_rgb.asp
-    if (strlen(m_template1->backgroundColor) == 0) {
+    if (backgroundColorEmpty) {
       rootWindow()->frameStyle().backgroundColor = RGB888(60, 179, 113);
     }
     else {
@@ -91,7 +93,7 @@ public:
 
     // frame where to schdule bullets
     ScheduleFrame = new uiFrame(rootWindow(), "", Point(10, 60), Size(330, 190)); //Size(330, 245)
-    if (strlen(m_template1->taskBackgroundColor) == 0) {
+    if (backgroundColorEmpty) {
       ScheduleFrame->frameStyle().backgroundColor = RGB888(152, 251, 152);
     }
     else {
@@ -99,10 +101,10 @@ public:
       std::string scheduleBackColor = "BRIGHT_" + backColor;
       ScheduleFrame->frameStyle().backgroundColor = m_colorMap[scheduleBackColor];
     }
-
+    bool taskBackgroundColorEmpty = strlen(m_template1->taskBackgroundColor) == 0;
     // first bullet frame
     firstBulletFrame = new uiFrame(ScheduleFrame, "", Point(10, 10), Size(310, 45));
-    if (strlen(m_template1->taskBackgroundColor) == 0) {
+    if (taskBackgroundColorEmpty) {
       firstBulletFrame->frameStyle().backgroundColor = RGB888(245, 163, 62);
     }
     else {
@@ -111,7 +113,7 @@ public:
     // first bullet label inside the frame
     firstBulletlabel = new uiStaticLabel(firstBulletFrame, "10:00 - Ms. Zeno's Lecture", Point(10, 20));
     firstBulletlabel->setText(m_template1->task1);
-    if (strlen(m_template1->taskBackgroundColor) == 0) {
+    if (taskBackgroundColorEmpty) {
       firstBulletlabel->labelStyle().backgroundColor = RGB888(245, 163, 62);
     }
     else {
@@ -123,7 +125,7 @@ public:
 
     // second bullet frame
     secondBulletFrame = new uiFrame(ScheduleFrame, "", Point(10, 70), Size(310, 45));
-    if (strlen(m_template1->taskBackgroundColor) == 0) {
+    if (taskBackgroundColorEmpty) {
       secondBulletFrame->frameStyle().backgroundColor = RGB888(245, 163, 62);
     }
     else {
@@ -131,7 +133,7 @@ public:
     }
     secondBulletlabel = new uiStaticLabel(secondBulletFrame, "12:00 - Lunch", Point(10, 20));
     secondBulletlabel->setText(m_template1->task2);
-    if (strlen(m_template1->taskBackgroundColor) == 0) {
+    if (taskBackgroundColorEmpty) {
       secondBulletlabel->labelStyle().backgroundColor = RGB888(245, 163, 62);
     }
     else {
@@ -143,7 +145,7 @@ public:
 
     // third bullet frame
     thirdBulletFrame = new uiFrame(ScheduleFrame, "", Point(10, 130), Size(310, 45));
-    if (strlen(m_template1->taskBackgroundColor) == 0) {
+    if (taskBackgroundColorEmpty) {
       thirdBulletFrame->frameStyle().backgroundColor = RGB888(245, 163, 62);
     }
     else {
@@ -151,7 +153,7 @@ public:
     }
     thirdBulletlabel = new uiStaticLabel(thirdBulletFrame, "13:30 - Mr. Ephraim's Product Launch", Point(10, 20));
     thirdBulletlabel->setText(m_template1->task3);
-    if (strlen(m_template1->taskBackgroundColor) == 0) {
+    if (taskBackgroundColorEmpty) {
       thirdBulletlabel->labelStyle().backgroundColor = RGB888(245, 163, 62);
     }
     else {

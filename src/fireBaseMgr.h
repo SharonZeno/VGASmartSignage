@@ -21,7 +21,6 @@ private:
     int m_chosenTemplate;
     template1Data m_template1;
     template2Data m_template2;
-    char* m_currentTemplateId;
     void setTemplate1Data();
     void setTemplate2Data();
     FirebaseData fbdo;

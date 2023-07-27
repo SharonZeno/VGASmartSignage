@@ -3,18 +3,16 @@
 #include "addons/TokenHelper.h"
 //Provide the RTDB payload printing info and other helper functions.
 #include "addons/RTDBHelper.h"
-
-// Insert Firebase project API Key
-#define API_KEY "AIzaSyB2iGCEadrDLPOb72QrvW5vC2Kynnk11uE"
+#include "secrets.h"
+#include "parameters.h"
+#include <string>
 // Insert RTDB URLefine the RTDB URL */
 #define DATABASE_URL "https://vga-smart-signage---iot-default-rtdb.europe-west1.firebasedatabase.app/" 
 
 CFireBaseMgr::CFireBaseMgr() : sendDataPrevMillis(0), signupOK(false), m_chosenTemplate(0), 
-    m_currentTemplateId(new char[36]), m_template1(), fbdo(), auth(), config() {};
+    m_template1(), fbdo(), auth(), config() {};
 
-CFireBaseMgr::~CFireBaseMgr() {
-  delete[] m_currentTemplateId;
-}
+CFireBaseMgr::~CFireBaseMgr() = default;
 
 NFireBaseSetup::EDB_STATUS CFireBaseMgr::doSetup() {
   /* Assign the api key (required) */
@@ -36,32 +34,32 @@ NFireBaseSetup::EDB_STATUS CFireBaseMgr::doSetup() {
 }
 
 void CFireBaseMgr::setTemplate1Data() {
-  if (Firebase.RTDB.getString(&fbdo, "/template/BackgroundColor")) {
+  if (Firebase.RTDB.getString(&fbdo, CONTROLLER_ID + std::string("/BackgroundColor"))) {
     if (fbdo.dataType() == "string") {
       memcpy(m_template1.backgroundColor, fbdo.stringData().c_str(), 7); 
     }
   }
-  if (Firebase.RTDB.getString(&fbdo, "/template/MainHeadline")) {
+  if (Firebase.RTDB.getString(&fbdo, CONTROLLER_ID + std::string("/MainHeadline"))) {
     if (fbdo.dataType() == "string") {
       memcpy(m_template1.mainHeadline, fbdo.stringData().c_str(), 50);
     }
   }
-  if (Firebase.RTDB.getString(&fbdo, "/template/Task1")) {
+  if (Firebase.RTDB.getString(&fbdo, CONTROLLER_ID + std::string("/Task1"))) {
     if (fbdo.dataType() == "string") {
       memcpy(m_template1.task1, fbdo.stringData().c_str(), 50);
     }
   }
-  if (Firebase.RTDB.getString(&fbdo, "/template/Task2")) {
+  if (Firebase.RTDB.getString(&fbdo, CONTROLLER_ID + std::string("/Task2"))) {
     if (fbdo.dataType() == "string") {
       memcpy(m_template1.task2, fbdo.stringData().c_str(), 50);
     }
   }
-  if (Firebase.RTDB.getString(&fbdo, "/template/Task3")) {
+  if (Firebase.RTDB.getString(&fbdo, CONTROLLER_ID + std::string("/Task3"))) {
     if (fbdo.dataType() == "string") {
       memcpy(m_template1.task3, fbdo.stringData().c_str(), 50);
     }
   }
-  if (Firebase.RTDB.getString(&fbdo, "/template/TaskBackgroundColor")) {
+  if (Firebase.RTDB.getString(&fbdo, CONTROLLER_ID + std::string("/TaskBackgroundColor"))) {
     if (fbdo.dataType() == "string") {
       memcpy(m_template1.taskBackgroundColor, fbdo.stringData().c_str(), 7);
     }
@@ -69,82 +67,97 @@ void CFireBaseMgr::setTemplate1Data() {
 }
 
 void CFireBaseMgr::setTemplate2Data() {
-  if (Firebase.RTDB.getString(&fbdo, "/template/MainHeadline")) {
+  if (Firebase.RTDB.getString(&fbdo, CONTROLLER_ID + std::string("/MainHeadline"))) {
     if (fbdo.dataType() == "string") {
       memcpy(m_template2.mainHeadline, fbdo.stringData().c_str(), 50);
     }
   }
-  if (Firebase.RTDB.getString(&fbdo, "/template/FirstFloorHeadline")) {
+  if (Firebase.RTDB.getString(&fbdo, CONTROLLER_ID + std::string("/FirstFloorHeadline"))) {
     if (fbdo.dataType() == "string") {
       memcpy(m_template2.firstFloorHeadline, fbdo.stringData().c_str(), 50);
     }
   }
-  if (Firebase.RTDB.getString(&fbdo, "/template/FirstFloorClassDesc1")) {
+  if (Firebase.RTDB.getString(&fbdo, CONTROLLER_ID + std::string("/FirstFloorBackgroundColor"))) {
+    if (fbdo.dataType() == "string") {
+      memcpy(m_template2.firstFloorBackgroundColor, fbdo.stringData().c_str(), 7);
+    }
+  }
+  if (Firebase.RTDB.getString(&fbdo, CONTROLLER_ID + std::string("/FirstFloorClassDesc1"))) {
     if (fbdo.dataType() == "string") {
       memcpy(m_template2.firstFloorClassDesc1, fbdo.stringData().c_str(), 50);
     }
   }
-  if (Firebase.RTDB.getString(&fbdo, "/template/FirstFloorClassDesc2")) {
+  if (Firebase.RTDB.getString(&fbdo, CONTROLLER_ID + std::string("/FirstFloorClassDesc2"))) {
     if (fbdo.dataType() == "string") {
       memcpy(m_template2.firstFloorClassDesc2, fbdo.stringData().c_str(), 50);
     }
   }
-  if (Firebase.RTDB.getString(&fbdo, "/template/FirstFloorClassDesc3")) {
+  if (Firebase.RTDB.getString(&fbdo, CONTROLLER_ID + std::string("/FirstFloorClassDesc3"))) {
     if (fbdo.dataType() == "string") {
       memcpy(m_template2.firstFloorClassDesc3, fbdo.stringData().c_str(), 50);
     }
   }
-  if (Firebase.RTDB.getString(&fbdo, "/template/FirstFloorClassDesc4")) {
+  if (Firebase.RTDB.getString(&fbdo, CONTROLLER_ID + std::string("/FirstFloorClassDesc4"))) {
     if (fbdo.dataType() == "string") {
       memcpy(m_template2.firstFloorClassDesc4, fbdo.stringData().c_str(), 50);
     }
   }
-  if (Firebase.RTDB.getString(&fbdo, "/template/SecondFloorHeadline")) {
+  if (Firebase.RTDB.getString(&fbdo, CONTROLLER_ID + std::string("/SecondFloorHeadline"))) {
     if (fbdo.dataType() == "string") {
       memcpy(m_template2.secondFloorHeadline, fbdo.stringData().c_str(), 50);
     }
   }
-  if (Firebase.RTDB.getString(&fbdo, "/template/SecondFloorClassDesc1")) {
+  if (Firebase.RTDB.getString(&fbdo, CONTROLLER_ID + std::string("/SecondFloorBackgroundColor"))) {
+    if (fbdo.dataType() == "string") {
+      memcpy(m_template2.secondFloorBackgroundColor, fbdo.stringData().c_str(), 7);
+    }
+  }
+  if (Firebase.RTDB.getString(&fbdo, CONTROLLER_ID + std::string("/SecondFloorClassDesc1"))) {
     if (fbdo.dataType() == "string") {
       memcpy(m_template2.secondFloorClassDesc1, fbdo.stringData().c_str(), 50);
     }
   }
-  if (Firebase.RTDB.getString(&fbdo, "/template/SecondFloorClassDesc2")) {
+  if (Firebase.RTDB.getString(&fbdo, CONTROLLER_ID + std::string("/SecondFloorClassDesc2"))) {
     if (fbdo.dataType() == "string") {
       memcpy(m_template2.secondFloorClassDesc2, fbdo.stringData().c_str(), 50);
     }
   }
-  if (Firebase.RTDB.getString(&fbdo, "/template/SecondFloorClassDesc3")) {
+  if (Firebase.RTDB.getString(&fbdo, CONTROLLER_ID + std::string("/SecondFloorClassDesc3"))) {
     if (fbdo.dataType() == "string") {
       memcpy(m_template2.secondFloorClassDesc3, fbdo.stringData().c_str(), 50);
     }
   }
-  if (Firebase.RTDB.getString(&fbdo, "/template/SecondFloorClassDesc4")) {
+  if (Firebase.RTDB.getString(&fbdo, CONTROLLER_ID + std::string("/SecondFloorClassDesc4"))) {
     if (fbdo.dataType() == "string") {
       memcpy(m_template2.secondFloorClassDesc4, fbdo.stringData().c_str(), 50);
     }
   }
-  if (Firebase.RTDB.getString(&fbdo, "/template/ThirdFloorHeadline")) {
+  if (Firebase.RTDB.getString(&fbdo, CONTROLLER_ID + std::string("/ThirdFloorHeadline"))) {
     if (fbdo.dataType() == "string") {
       memcpy(m_template2.thirdFloorHeadline, fbdo.stringData().c_str(), 50);
     }
   }
-  if (Firebase.RTDB.getString(&fbdo, "/template/ThirdFloorClassDesc1")) {
+  if (Firebase.RTDB.getString(&fbdo, CONTROLLER_ID + std::string("/ThirdFloorBackgroundColor"))) {
+    if (fbdo.dataType() == "string") {
+      memcpy(m_template2.thirdFloorBackgroundColor, fbdo.stringData().c_str(), 7);
+    }
+  }
+  if (Firebase.RTDB.getString(&fbdo, CONTROLLER_ID + std::string("/ThirdFloorClassDesc1"))) {
     if (fbdo.dataType() == "string") {
       memcpy(m_template2.thirdFloorClassDesc1, fbdo.stringData().c_str(), 50);
     }
   }
-  if (Firebase.RTDB.getString(&fbdo, "/template/ThirdFloorClassDesc2")) {
+  if (Firebase.RTDB.getString(&fbdo, CONTROLLER_ID + std::string("/ThirdFloorClassDesc2"))) {
     if (fbdo.dataType() == "string") {
       memcpy(m_template2.thirdFloorClassDesc2, fbdo.stringData().c_str(), 50);
     }
   }
-  if (Firebase.RTDB.getString(&fbdo, "/template/ThirdFloorClassDesc3")) {
+  if (Firebase.RTDB.getString(&fbdo, CONTROLLER_ID + std::string("/ThirdFloorClassDesc3"))) {
     if (fbdo.dataType() == "string") {
       memcpy(m_template2.thirdFloorClassDesc3, fbdo.stringData().c_str(), 50);
     }
   }
-  if (Firebase.RTDB.getString(&fbdo, "/template/ThirdFloorClassDesc4")) {
+  if (Firebase.RTDB.getString(&fbdo, CONTROLLER_ID + std::string("/ThirdFloorClassDesc4"))) {
     if (fbdo.dataType() == "string") {
       memcpy(m_template2.thirdFloorClassDesc4, fbdo.stringData().c_str(), 50);
     }
@@ -154,7 +167,8 @@ void CFireBaseMgr::setTemplate2Data() {
 NFireBaseSetup::EDB_STATUS CFireBaseMgr::doLoopLogic() {
   if (Firebase.ready() && signupOK && (millis() - sendDataPrevMillis > 15000 || sendDataPrevMillis == 0)) {
     sendDataPrevMillis = millis();
-    if (Firebase.RTDB.getInt(&fbdo, "/template/template")) {
+    std::string path = CONTROLLER_ID + std::string("/template");
+    if (Firebase.RTDB.getInt(&fbdo, path)) {
       if (fbdo.dataType() == "int") {
         m_chosenTemplate = fbdo.intData();
         if (m_chosenTemplate == 1) {
@@ -167,11 +181,6 @@ NFireBaseSetup::EDB_STATUS CFireBaseMgr::doLoopLogic() {
     }
     else {
       return NFireBaseSetup::EDB_STATUS::E_ERROR_EMPTY;
-    }
-    if (Firebase.RTDB.getString(&fbdo, "/template/id")) {
-      if (fbdo.dataType() == "string") {
-        memcpy(m_currentTemplateId, fbdo.stringData().c_str(), 36);
-      }
     }
   }
   return NFireBaseSetup::EDB_STATUS::GOOD;

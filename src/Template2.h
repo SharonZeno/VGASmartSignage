@@ -50,7 +50,7 @@ public:
     rootWindow()->frameStyle().backgroundColor = RGB888(0, 0, 0);
     
     // Main healine
-    headlineLabel = new uiStaticLabel(rootWindow(), "Classes For Exams - Ullmann", Point(170, 20));
+    headlineLabel = new uiStaticLabel(rootWindow(), "Classes For Exams - Ullmann", Point(150, 20));
     headlineLabel->setText(m_template2->mainHeadline);
     headlineLabel->labelStyle().backgroundColor = rootWindow()->frameStyle().backgroundColor;
     headlineLabel->labelStyle().textFont = &fabgl::FONT_std_24;
