@@ -1,4 +1,5 @@
-#pragma once
+#ifndef _TEMPLATE1
+#define _TEMPLATE1
 
 #include "templates.h"
 #include "time.h"
@@ -20,6 +21,7 @@ class Template1 : public uiApp {
   uiStaticLabel * thirdBulletlabel;
 
   std::map<std::string, fabgl::RGB888> m_colorMap;
+  bool db_mode;
 
   char* cStringClock;
 
@@ -30,17 +32,28 @@ class Template1 : public uiApp {
 public:
   Template1() = default;
 
-  Template1(template1Data* template1): m_template1(template1) {};
-  
-  Template1(template1Data* template1, tm* curr_time): m_template1(template1) {
+  Template1(template1Data* template1): m_template1(template1) {
+    db_mode = false;
     m_colorMap["GREEN"] = RGB888(60, 179, 113);
     m_colorMap["BRIGHT_GREEN"] = RGB888(152, 251, 152);
     m_colorMap["ORANGE"] = RGB888(245, 163, 62);
-    m_colorMap["BRIGHT_ORANGE"] = RGB888(245, 179, 112);
+    m_colorMap["BRIGHT_ORANGE"] = RGB888(255, 163, 121);
     m_colorMap["RED"] = RGB888(215, 60, 60);
     m_colorMap["BRIGHT_RED"] = RGB888(255, 110, 100);
-    m_colorMap["BLUE"] = RGB888(0, 0, 255);
-    m_colorMap["BRIGHT_BLUE"] = RGB888(152, 152, 251);
+    m_colorMap["BLUE"] = RGB888(54, 117, 200);
+    m_colorMap["BRIGHT_BLUE"] = RGB888(117, 220, 220);
+  };
+  
+  Template1(template1Data* template1, tm* curr_time): m_template1(template1) {
+    db_mode = true;
+    m_colorMap["GREEN"] = RGB888(60, 179, 113);
+    m_colorMap["BRIGHT_GREEN"] = RGB888(152, 251, 152);
+    m_colorMap["ORANGE"] = RGB888(245, 163, 62);
+    m_colorMap["BRIGHT_ORANGE"] = RGB888(255, 163, 121);
+    m_colorMap["RED"] = RGB888(215, 60, 60);
+    m_colorMap["BRIGHT_RED"] = RGB888(255, 110, 100);
+    m_colorMap["BLUE"] = RGB888(54, 117, 200);
+    m_colorMap["BRIGHT_BLUE"] = RGB888(117, 220, 220);
 
     m_hour = curr_time->tm_hour;
     m_minute = curr_time->tm_min;
@@ -66,23 +79,25 @@ public:
     headlineLabel->labelStyle().textColor = RGB888(255, 255, 255);
     headlineLabel->update();
 
-    // clock label
-    clocklabel = new uiStaticLabel(rootWindow(), "Very Nice Clock", Point(20, 20));
-    std::string clock;
-    if(m_minute<10)
-    {
-      clock = std::to_string(m_hour) + ":0" + std::to_string(m_minute);
+    if (db_mode) {
+      // clock label
+      clocklabel = new uiStaticLabel(rootWindow(), "Very Nice Clock", Point(20, 20));
+      std::string clock;
+      if(m_minute<10)
+      {
+        clock = std::to_string(m_hour) + ":0" + std::to_string(m_minute);
+      }
+      else
+      {
+        clock = std::to_string(m_hour) + ":" + std::to_string(m_minute);
+      }
+      strcpy(cStringClock,clock.c_str());
+      clocklabel->setText(cStringClock);
+      clocklabel->labelStyle().backgroundColor = rootWindow()->frameStyle().backgroundColor;
+      clocklabel->labelStyle().textFont = &fabgl::FONT_10x20;
+      clocklabel->labelStyle().textColor = RGB888(255, 255, 255);
+      clocklabel->update();
     }
-    else
-    {
-      clock = std::to_string(m_hour) + ":" + std::to_string(m_minute);
-    }
-    strcpy(cStringClock,clock.c_str());
-    clocklabel->setText(cStringClock);
-    clocklabel->labelStyle().backgroundColor = rootWindow()->frameStyle().backgroundColor;
-    clocklabel->labelStyle().textFont = &fabgl::FONT_10x20;
-    clocklabel->labelStyle().textColor = RGB888(255, 255, 255);
-    clocklabel->update();
 
     // author label
     authorLabel = new uiStaticLabel(rootWindow(), "Expo Entrance", Point(440, 200));
@@ -165,3 +180,5 @@ public:
   }
 
 };
+
+#endif

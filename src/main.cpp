@@ -193,15 +193,13 @@ void loop()
     //Note: Mode selection is inside this manger.
     pWiFiManager = new WiFiManager();
     connection_result = pWiFiManager->autoConnect("VGA Smart Signage");
-    Serial.println(connection_result);
-    // if(!connection_result)
-    // {
-    //   stateMachineMgr.setSystemState(NStateMachine::E_ERROR_WIFI);
-    //   break;
-    // }
-    Serial.println("no db mode...\n");
     if (pWiFiManager->_mode == "DB") {
       db_mode = true;
+      if(!connection_result)
+      {
+        stateMachineMgr.setSystemState(NStateMachine::E_ERROR_WIFI);
+        break;
+      }
       configTime(gmtOffset_sec, daylightOffset_sec, ntpServer); //get current time
       if (!getLocalTime(&_timeinfo)) {
         // Serial.println("Falid to obtain time");
@@ -215,8 +213,21 @@ void loop()
     }
     break;
   case NStateMachine::E_ERROR_WIFI:
-    stateMachineMgr.setSystemState(NStateMachine::E_BOOT);
-    break;
+  {
+    pWiFiManager->disconnect();
+    pWiFiManager->erase();
+    pWiFiManager->resetSettings();
+    delete pWiFiManager;
+    DisplayController.begin();
+    DisplayController.setResolution(VGA_640x350_70Hz);
+    fabgl::Canvas cv(&DisplayController);
+    cv.setPenColor(Color::Red);
+    cv.drawText(100, 100, "Error connecting to WIFI, please try again");
+    delay(30000);
+    ESP.restart();
+    //stateMachineMgr.setSystemState(NStateMachine::E_BOOT);
+    //break;
+  }
   case NStateMachine::E_DB_MODE:
     pFireBaseMgr = new CFireBaseMgr();
     if(pFireBaseMgr->doSetup() == NFireBaseSetup::E_ERROR_CONNECTION)
@@ -247,15 +258,42 @@ void loop()
     // Serial.println("go to E_SHOW_SIGNAGE"); //for testing
     break;
   case NStateMachine::E_ERROR_CONNECTION_DB:
-    stateMachineMgr.setSystemState(NStateMachine::E_BOOT); //TODO: think if this is the best handle for this error
-    break;
+  {
+    delete pFireBaseMgr;
+    pWiFiManager->disconnect();
+    pWiFiManager->erase();
+    pWiFiManager->resetSettings();
+    delete pWiFiManager;
+    DisplayController.begin();
+    DisplayController.setResolution(VGA_640x350_70Hz);
+    fabgl::Canvas cv(&DisplayController);
+    cv.setPenColor(Color::Red);
+    cv.drawText(100, 100, "Error connecting to DB, please try again");
+    delay(30000);
+    ESP.restart();
+    //stateMachineMgr.setSystemState(NStateMachine::E_BOOT); //TODO: think if this is the best handle for this error
+    //break;
+  }
   case NStateMachine::E_ERROR_EMPTY_DB:
-    stateMachineMgr.setSystemState(NStateMachine::E_BOOT); //TODO: think if this is the best handle for this error
-    break;
+  {
+    delete pFireBaseMgr;
+    pWiFiManager->disconnect();
+    pWiFiManager->erase();
+    pWiFiManager->resetSettings();
+    delete pWiFiManager;
+    DisplayController.begin();
+    DisplayController.setResolution(VGA_640x350_70Hz);
+    fabgl::Canvas cv(&DisplayController);
+    cv.setPenColor(Color::Red);
+    cv.drawText(100, 100, "Error DB is empty");
+    delay(30000);
+    ESP.restart();
+    //stateMachineMgr.setSystemState(NStateMachine::E_BOOT); //TODO: think if this is the best handle for this error
+    //break;
+  }
   case NStateMachine::E_MANUAL_MODE:
-    Serial.println("Manual mode...\n");
-    Serial.println(pWiFiManager->_template);
     if(pWiFiManager->_template == "1") {
+      Serial.println("here in manual mode template 1"); //for testing
       chosenTemplate = 1;
       memcpy(_template1.mainHeadline, pWiFiManager->_t1headline.c_str(), 50);
       memcpy(_template1.task1, pWiFiManager->_task1.c_str(), 50);
@@ -339,9 +377,7 @@ void loop()
       }
     }
     else {
-      Serial.println("Template2 is now displyed...\n");
       sprites[0].addBitmap(&good_luck_bitmap);
-      Serial.println("here...\n");
       // sets initial position
       sprites[0].moveTo(490, 0);
     
@@ -350,9 +386,13 @@ void loop()
 
       // add sprites to display controller
       DisplayController.setSprites(sprites, 1);
-      Template2(&_template2).runForOneMinute(&DisplayController);
-      sprites[0].visible = false;
-      //display template 2
+      if (db_mode) {
+        Template2(&_template2, &_timeinfo).runForOneMinute(&DisplayController);
+        sprites[0].visible = false;
+      }
+      else {
+        Template2(&_template2).runForOneMinute(&DisplayController);
+      }
     }
     break;
 
