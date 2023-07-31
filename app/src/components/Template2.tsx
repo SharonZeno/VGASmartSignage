@@ -20,7 +20,13 @@ const colors = [
     value: 'BLUE',
   },
   {
-    value: 'YELLOW',
+    value: 'ORANGE',
+  },
+  {
+    value: 'PINK',
+  },
+  {
+    value: 'PURPLE',
   },
 ];
 
