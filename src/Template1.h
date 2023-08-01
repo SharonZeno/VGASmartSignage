@@ -13,7 +13,7 @@ class Template1 : public uiApp {
   uiFrame * secondBulletFrame;
   uiFrame * thirdBulletFrame;
 
-  uiStaticLabel * authorLabel;
+  // uiStaticLabel * authorLabel;
   uiStaticLabel * headlineLabel;
   uiStaticLabel * clocklabel;
   uiStaticLabel * firstBulletlabel;
@@ -100,11 +100,11 @@ public:
     }
 
     // author label
-    authorLabel = new uiStaticLabel(rootWindow(), "Expo Entrance", Point(440, 200));
-    authorLabel->labelStyle().backgroundColor = rootWindow()->frameStyle().backgroundColor;
-    authorLabel->labelStyle().textFont = &fabgl::FONT_10x20;
-    authorLabel->labelStyle().textColor = RGB888(255, 255, 255);
-    authorLabel->update();
+    // authorLabel = new uiStaticLabel(rootWindow(), "This Way", Point(440, 200));
+    // authorLabel->labelStyle().backgroundColor = rootWindow()->frameStyle().backgroundColor;
+    // authorLabel->labelStyle().textFont = &fabgl::FONT_10x20;
+    // authorLabel->labelStyle().textColor = RGB888(255, 255, 255);
+    // authorLabel->update();
 
     // frame where to schdule bullets
     ScheduleFrame = new uiFrame(rootWindow(), "", Point(10, 60), Size(330, 190)); //Size(330, 245)

@@ -18,19 +18,27 @@ import { TextField } from '@mui/material';
 
 const tiers = [
   {
-    title: 'Template 1',
+    title: 'Template 1 - Conference Pro',
     description: [
-        'conference schedule',
-        'template',
+        'Elevate your conference experience effortlessly!',
+        'A sleek, modern design with:',
+        'Striking headline',
+        'Three bullet points for the schedule',
+        'Guiding right arrow',
+        'Real-time clock on WIFI',
     ],
     buttonText: 'Choose',
     buttonVariant: 'outlined',
   },
   {
-    title: 'Template 2',
+    title: 'Template 2 - Room Assign Master',
     description: [
-        'rooms assignment',
-        'template',
+        'Your solution for room assignment management!',
+        'Enjoy the benefits of:',
+        'Striking headline',
+        'Three parallel boxes for different areas',
+        'Four bullets in each box, representing room data',
+        'Real-time clock on WIFI',
     ],
     buttonText: 'Choose',
     buttonVariant: 'outlined',
