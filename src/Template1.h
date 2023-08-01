@@ -13,7 +13,7 @@ class Template1 : public uiApp {
   uiFrame * secondBulletFrame;
   uiFrame * thirdBulletFrame;
 
-  // uiStaticLabel * authorLabel;
+  uiStaticLabel * authorLabel;
   uiStaticLabel * headlineLabel;
   uiStaticLabel * clocklabel;
   uiStaticLabel * firstBulletlabel;
@@ -60,6 +60,14 @@ public:
     cStringClock = new char[10];
   };
 
+  int stringLength(const char* str) {
+    int length = 0;
+    while (str[length] != '\0') {
+        length++;
+    }
+    return length;
+  }
+
   void init() {
     appProps().realtimeReshaping = true;
     bool backgroundColorEmpty = strlen(m_template1->backgroundColor) == 0;
@@ -72,7 +80,9 @@ public:
     }
 
    // Main healine
-    headlineLabel = new uiStaticLabel(rootWindow(), "Welcome To Our IOT Expo! ", Point(190, 20));
+    int headlineLength = stringLength(m_template1->mainHeadline);
+    int startPoint = (640-(headlineLength*10))/2;
+    headlineLabel = new uiStaticLabel(rootWindow(), "Welcome!", Point(startPoint, 20));
     headlineLabel->setText(m_template1->mainHeadline);
     headlineLabel->labelStyle().backgroundColor = rootWindow()->frameStyle().backgroundColor;
     headlineLabel->labelStyle().textFont = &fabgl::FONT_std_24;
@@ -100,11 +110,11 @@ public:
     }
 
     // author label
-    // authorLabel = new uiStaticLabel(rootWindow(), "This Way", Point(440, 200));
-    // authorLabel->labelStyle().backgroundColor = rootWindow()->frameStyle().backgroundColor;
-    // authorLabel->labelStyle().textFont = &fabgl::FONT_10x20;
-    // authorLabel->labelStyle().textColor = RGB888(255, 255, 255);
-    // authorLabel->update();
+    authorLabel = new uiStaticLabel(rootWindow(), "Explore Here", Point(440, 200));
+    authorLabel->labelStyle().backgroundColor = rootWindow()->frameStyle().backgroundColor;
+    authorLabel->labelStyle().textFont = &fabgl::FONT_10x20;
+    authorLabel->labelStyle().textColor = RGB888(255, 255, 255);
+    authorLabel->update();
 
     // frame where to schdule bullets
     ScheduleFrame = new uiFrame(rootWindow(), "", Point(10, 60), Size(330, 190)); //Size(330, 245)

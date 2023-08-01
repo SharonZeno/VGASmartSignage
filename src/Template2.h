@@ -70,13 +70,23 @@ public:
     cStringClock = new char[10];
   };
 
+  int stringLength(const char* str) {
+    int length = 0;
+    while (str[length] != '\0') {
+        length++;
+    }
+    return length;
+  }
+
   void init() {
     appProps().realtimeReshaping = true;
 
     rootWindow()->frameStyle().backgroundColor = RGB888(0, 0, 0);
     
     // Main healine
-    headlineLabel = new uiStaticLabel(rootWindow(), "Classes For Exams - Ullmann", Point(150, 20));
+    int headlineLength = stringLength(m_template2->mainHeadline);
+    int startPoint = (640-(headlineLength*10))/2;
+    headlineLabel = new uiStaticLabel(rootWindow(), "Class Assignments For Exams - Ullmann", Point(startPoint, 20));
     headlineLabel->setText(m_template2->mainHeadline);
     headlineLabel->labelStyle().backgroundColor = rootWindow()->frameStyle().backgroundColor;
     headlineLabel->labelStyle().textFont = &fabgl::FONT_std_24;
