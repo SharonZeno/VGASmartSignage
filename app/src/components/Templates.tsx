@@ -196,7 +196,7 @@ export const Templates = () => {
                     <Button
                         fullWidth
                         variant={tier.buttonVariant as 'outlined' | 'contained'}
-                        onClick={tier.title === 'Template 1' ? handleOnClickTemplate1 : handleOnClickTemplate2}
+                        onClick={tier.title === 'Template 1 - Conference Pro' ? handleOnClickTemplate1 : handleOnClickTemplate2}
                     >
                         {tier.buttonText}
                     </Button>
