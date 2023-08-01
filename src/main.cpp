@@ -54,7 +54,7 @@ void loop()
       }
       configTime(gmtOffset_sec, daylightOffset_sec, ntpServer); //get current time
       if (!getLocalTime(&_timeinfo)) {
-        Serial.println("Falid to obtain time");
+        // Serial.println("Falid to obtain time");
       }
       memcpy(ssid_wifi, (pWiFiManager->getWiFiSSID()).c_str(),50); //for reconnecting in the next iterations
       memcpy(wifi_pass, (pWiFiManager->getWiFiPass()).c_str(),50);
@@ -136,7 +136,7 @@ void loop()
   }
   case NStateMachine::E_MANUAL_MODE:
     if(pWiFiManager->_template == "1") {
-      Serial.println("here in manual mode template 1"); //for testing
+      // Serial.println("here in manual mode template 1"); //for testing
       chosenTemplate = 1;
       memcpy(_template1.mainHeadline, pWiFiManager->_t1headline.c_str(), 50);
       memcpy(_template1.task1, pWiFiManager->_task1.c_str(), 50);
@@ -193,7 +193,7 @@ void loop()
         //get current time
         configTime(gmtOffset_sec, daylightOffset_sec, ntpServer);
         if (!getLocalTime(&_timeinfo)) {
-          Serial.println("Falid to obtain time");
+          // Serial.println("Falid to obtain time");
         }
         WiFi.softAPdisconnect(true);
         WiFi.disconnect(true, true);
@@ -221,7 +221,7 @@ void loop()
     else {
       sprites[0].addBitmap(&good_luck_bitmap);
       // sets initial position
-      sprites[0].moveTo(490, 0);
+      sprites[0].moveTo(550, 0);
     
       // makes sprites visible
       sprites[0].visible = true;
