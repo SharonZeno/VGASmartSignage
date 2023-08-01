@@ -1,15 +1,15 @@
 {
   "files": {
     "main.css": "/VGASmartSignage/static/css/main.073c9b0a.css",
-    "main.js": "/VGASmartSignage/static/js/main.7fe3fbdc.js",
+    "main.js": "/VGASmartSignage/static/js/main.4cb36b43.js",
     "static/js/787.bea63c94.chunk.js": "/VGASmartSignage/static/js/787.bea63c94.chunk.js",
     "index.html": "/VGASmartSignage/index.html",
     "main.073c9b0a.css.map": "/VGASmartSignage/static/css/main.073c9b0a.css.map",
-    "main.7fe3fbdc.js.map": "/VGASmartSignage/static/js/main.7fe3fbdc.js.map",
+    "main.4cb36b43.js.map": "/VGASmartSignage/static/js/main.4cb36b43.js.map",
     "787.bea63c94.chunk.js.map": "/VGASmartSignage/static/js/787.bea63c94.chunk.js.map"
   },
   "entrypoints": [
     "static/css/main.073c9b0a.css",
-    "static/js/main.7fe3fbdc.js"
+    "static/js/main.4cb36b43.js"
   ]
 }
